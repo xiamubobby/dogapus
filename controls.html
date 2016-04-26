@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body, html {
+            width: 100%;
+            height: 100%;
+        }
+        ul {
+            list-style-type: none;
+        }
+        #categories li{
+            display: inline;
+        }
+        #logins li {
+            display: inline;
+        }
+        #login-controls, #login-status{
+            transition-property: opacity, transform;
+            transition-duration: 1.5s;
+        }
+        #login-status{
+            transform: translate(0px, -100%);
+        }
+    </style>
+    <link href="http://cdn.muicss.com/mui-0.5.3/css/mui.min.css" rel="stylesheet" type="text/css" />
+    <script src="http://cdn.muicss.com/mui-0.5.3/js/mui.min.js"></script>
+</head>
+<body>
+<div>
+    <ul id="controls" style="height: 100%; width: 100%">
+        <li  id="login-status" style="position: fixed; opacity: 0">
+            <div>
+                <span>not logged in yet</span>
+            </div>
+        </li>
+        <li id="login-controls" style="height: 50%; width: 100%">
+            <form id="login-form" >
+                <ul id="logins">
+                    <li><span>username</span></li>
+                    <li><input type="text" id="login-account" name="account"></li>
+                    <li><span>passowrd</span></li>
+                    <li><input type="password" id="login-password" name="password"></li>
+                    <li><button id="login-submit" type="button" class="mui-btn mui-btn--raised mui-btn--danger"><span>BIU!</span></button></li>
+                </ul>
+            </form>
+        </li>
+        <li style="height: 50%; width: 100%">
+            <ul id="categories">
+                <li><button id="youku-button" class="mui-btn mui-btn--raised mui-btn--accent" disabled><span>Youku</span></button></li>
+                <li><button id="iqiyi-button" class="mui-btn mui-btn--raised mui-btn--accent" disabled><span>iQiyi</span></button></li>
+                <li><button id="sohu-button" class="mui-btn mui-btn--raised mui-btn--accent" disabled><span>Sohu</span></button></li>
+                <li><button id="tudou-button" class="mui-btn mui-btn--raised mui-btn--accent" disabled><span>Tudou</span></button></li>
+                <li><button id="tencent-button" class="mui-btn mui-btn--raised mui-btn--accent" disabled><span>Tencent</span></button></li>
+                <li><button id="letv-button" class="mui-btn mui-btn--raised mui-btn--accent" disabled><span>LeTV</span></button></li>
+                <li><button id="extra-button" class="mui-btn mui-btn--raised mui-btn--accent" disabled><span>extra</span></button></li>
+            </ul>
+        </li>
+    </ul>
+
+</div>
+<script>
+    const low = require('lowdb');
+    const storage = require('lowdb/file-sync');
+    const ipcRenderer = require('electron').ipcRenderer;
+
+    var appPath = ipcRenderer.sendSync("get-app-path")
+    console.log(process.resourcesPath)
+    const db = low(process.resourcesPath + '/db.json', { storage });
+    document.getElementById("login-submit").addEventListener("click", function (e) {
+        let account = document.getElementById("login-account").value;
+        let password = document.getElementById("login-password").value;
+        require("./protocols.js").interfaces.login(account, password, function(err, response, body) {
+          console.log("entered")
+            db("token").remove()
+            db("token").push({token: body.accessToken})
+            //console.log(db.object.token)
+            let loginControls = document.getElementById("login-controls")
+            loginControls.style.transform = "translate(0px, -100px)"
+            loginControls.style.opacity = 0
+            let status = document.getElementById("login-status");
+            status.textContent = "logged in (鼠标点击响应较为耗时，请耐心等待)";
+            status.style.transform = "translate(0px, 0px)";
+            status.style.opacity = 1;
+
+            window.localStorage.setItem("token", body.accessToken);
+            const buttons = document.querySelectorAll("#categories > li > button")
+            for (var i = 0; i < buttons.length; i++) {
+                buttons[i].disabled = false
+            }
+        });
+    });
+    document.getElementById("youku-button").addEventListener("click", function(){
+        console.log("youku-clicked")
+        require("./protocols.js").interfaces.getVideoAccount(require("./protocols.js").VideoType.YOUKU_TUDOU, function (err, request, body) {
+            db('video').push({
+                site: "youku",
+                account: body.account,
+                password: body.password
+            })
+            ipcRenderer.sendToHost("main-webview-loadurl", "http://www.youku.com/")
+        });
+
+    });
+    document.getElementById("iqiyi-button").addEventListener("click", function(){
+        require("./protocols.js").interfaces.getVideoAccount(require("./protocols.js").VideoType.IQIYI, function (err, request, body) {
+            db('video').push({
+                site: "iqiyi",
+                account: body.account,
+                password: body.password
+            })
+            ipcRenderer.sendToHost("main-webview-loadurl", "http://www.iqiyi.com/")
+        });
+    });
+    document.getElementById("sohu-button").addEventListener("click", function(){
+        require("./protocols.js").interfaces.getVideoAccount(require("./protocols.js").VideoType.SOHU, function (err, request, body) {
+            db('video').push({
+                site: "sohu",
+                account: body.account,
+                password: body.password
+            })
+            ipcRenderer.sendToHost("main-webview-loadurl", "http://tv.sohu.com/")
+        });
+
+    });
+    document.getElementById("tudou-button").addEventListener("click", function(){
+        require("./protocols.js").interfaces.getVideoAccount(require("./protocols.js").VideoType.YOUKU_TUDOU, function (err, request, body) {
+            db('video').push({
+                site: "tudou",
+                account: body.account,
+                password: body.password
+            })
+            ipcRenderer.sendToHost("main-webview-loadurl", "http://www.tudou.com/")
+        });
+
+    });
+    document.getElementById("tencent-button").addEventListener("click", function(){
+        require("./protocols.js").interfaces.getVideoAccount(require("./protocols.js").VideoType.QQ, function (err, request, body) {
+            db('video').push({
+                site: "tencent",
+                account: body.account,
+                password: body.password
+            })
+            ipcRenderer.sendToHost("main-webview-loadurl", "http://v.qq.com/")
+        });
+
+    });
+    document.getElementById("letv-button").addEventListener("click", function(){
+        require("./protocols.js").interfaces.getVideoAccount(require("./protocols.js").VideoType.LETV, function (err, request, body) {
+            db('video').push({
+                site: "letv",
+                account: body.account,
+                password: body.password
+            })
+            ipcRenderer.sendToHost("main-webview-loadurl", "http://www.le.com/")
+        });
+    });
+    document.getElementById("extra-button").addEventListener("click", function(){
+        if (confirm("r u sure u r alone?!~")) {
+            ipcRenderer.sendToHost("main-webview-loadurl", "http://www.sex.com/")
+        }
+    });
+</script>
+
+</body>
+</html>

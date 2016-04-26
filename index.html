@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>!</title>
+    <link rel="stylesheet" href="main.css">
+    <style>
+        #cover {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            background-color: #03A9F4;
+            transition-property: opacity;
+            transition-duration: 1.5s;
+        }
+    </style>
+</head>
+<body>
+<webview preload="./lowdbinjection.js" id="mainwebview" plugins disablewebsecurity style="width:100%; height:100%; position: fixed"></webview>
+<div id="cover" style="width: 100%; height: 100%;" >
+    <span style="color: black; font-size: 1000%; position: absolute; top: 50%; left: 50%; transform: translate(-48%,-48%); opacity: 0.2">观影从未如此简单</span>
+    <span style="color: white; font-size: 1000%; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);">观影从未如此简单</span>
+    <span style="color: white;">鼠标移至左上角将打开工具栏</span>
+</div>
+<webview  id="controlwebview" disablewebsecurity nodeintegration allowpopup style="width:100%; position: fixed"></webview>
+<script>
+
+</script>
+<script type="text/javascript">
+    const fs = require("fs");
+    const ipcRenderer = require("electron").ipcRenderer
+
+    function pageMod(webView, options) {
+        if (options.contentScriptFiles) {
+            var fns = options.contentScriptFiles
+            if (typeof fns == "string") {
+                webView.getWebContents().executeJavaScript(fs.readFileSync(`${process.resourcesPath}/app/${fns}`, {encoding: "utf-8"}))
+            } else if (fns instanceof Array) {
+                for (const fn of fns) {
+                    webView.getWebContents().executeJavaScript(fs.readFileSync(`${process.resourcesPath}/app/${fn}`, {encoding: "utf-8"}))
+                }
+            }
+        }
+    }
+
+    var webView = document.getElementById("mainwebview");
+    const controls = document.getElementById("controlwebview")
+    controls.setAttribute("src", `file://${__dirname}/controls.html`)
+    webView.setAttribute("preload", `file://${__dirname}/lowdbinjection.js`)
+//    webView.setAttribute("src", "http://baidu.com")
+    var cover = document.getElementById("cover")
+    webView.addEventListener("new-window", function(e){
+        webView.loadURL(e.url)
+    });
+    webView.addEventListener("console-message", function (e) {
+        console.log(e.message)
+    });
+
+//    webView.addEventListener("dom-ready", function () {
+//        console.log("dom-ready")
+//    });
+    webView.addEventListener("did-finish-load", function() {
+        //webView.getWebContents().openDevTools();
+        console.log(`did-finish-load: ${webView.getURL()}`);
+        document.getElementById("cover").style.opacity = 0.0;
+        let url = webView.getURL()
+        if (url.includes("youku")) {
+            pageMod(webView, {
+                contentScriptFiles: "youku-mod.js"
+            });
+        }
+        if (url.includes("iqiyi")) {
+            pageMod(webView, {
+                contentScriptFiles: "iqiyi-mod.js"
+            });
+        }
+        if (url.includes("sohu")) {
+            pageMod(webView, {
+                contentScriptFiles: "sohu-mod.js"
+            });
+        }
+        if (url.includes("tudou")) {
+            pageMod(webView, {
+                contentScriptFiles: "tudou-mod.js"
+            });
+        }
+        if (url.includes("qq")) {
+            pageMod(webView, {
+                contentScriptFiles: "tencent-mod.js"
+            });
+        }
+        if (url.includes("le")) {
+            pageMod(webView, {
+                contentScriptFiles: "letv-mod.js"
+            });
+        }
+    });
+    cover.addEventListener("transitionend", function (e) {
+        if (cover.style.opacity == 0) {
+            cover.style.display = "none"
+        }
+    })
+
+    controls.style.transitionProperty = "transform"
+    controls.style.transitionDuration = "1.5s"
+    controls.style.transform = "translate(0px, -100%)"
+    controls.addEventListener("did-finish-load", function(){
+        //controls.openDevTools()
+    })
+    controls.addEventListener("ipc-message", function (e) {
+        switch (e.channel) {
+            case "main-webview-loadurl":
+                console.log(e.args)
+                cover.style.display = "inline"
+                cover.style.opacity = 1.0;
+                if (e.args.length > 0 ) {
+                    try {
+                        webView.loadURL(e.args[0])
+                    } catch(err) {
+                        webView.setAttribute("src", e.args)
+                    }
+                }
+        }
+    });
+    document.addEventListener("mousemove", function(e){
+        let y = e.clientY
+        let ratio = y / window.innerHeight
+        if (ratio <= 0.1 && e.clientX / window.innerWidth <= 0.2) {
+            controls.style.transform = "translate(0px, 0px)"
+        }
+    });
+    controls.addEventListener("mouseleave", function(e){
+        controls.style.transform = "translate(0px, -100%)"
+    });
+    webView.addEventListener("click", function(e){
+        controls.style.transform = "translate(0px, -100%)"
+    });
+</script>
+</body>
+</html>
