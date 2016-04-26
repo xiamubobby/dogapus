@@ -1,9 +1,8 @@
-"use strict";
 /**
  * Created by natsuki on 16/4/26.
  */
-const app_1 = require("../app");
-const fs = require("fs");
+var the_app_ts_1 = require("the_app.ts");
+var fs = require("fs");
 class PageMod {
     constructor(pattern, filenames) {
         this.pattern = pattern;
@@ -11,8 +10,8 @@ class PageMod {
     }
 }
 var pageModes = {};
-for (const site of app_1.StreamSites) {
-    const siteName = app_1.StreamSiteEnum[site];
+for (const site of the_app_ts_1.StreamSites) {
+    const siteName = the_app_ts_1.StreamSiteEnum[site];
     const files = fs.readdirSync(`${__dirname}/${siteName.toLowerCase()}`);
     pageModes[siteName] = new PageMod((url) => url.includes(siteName.toLowerCase()), files.filter((element) => element.endsWith(".js")));
 }

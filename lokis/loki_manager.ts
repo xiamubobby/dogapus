@@ -16,16 +16,17 @@ if (!db.getCollection(COLLECTION_SITES)) {
 let sites = db.getCollection(COLLECTION_SITES)
 
 export function getAccessToken(){
-    return user.findOne()
+    let result = user.findOne().data()[0];
+    if (result && result.token) return result.token
 }
 
 export function updateAccessToken(token: string) {
-    user.chain().remove()
+    user.chain().remove();
     user.insert({token: token})
 }
 
 export function getSiteInfo(siteName: string) {
-    return sites.findOne({siteName: siteName}).data
+    return sites.findOne({siteName: siteName}).data()[0]
 }
 
 export function updateSiteInfo(siteName: string, account: string, password: string) {

@@ -1,7 +1,13 @@
 /**
  * Created by natsuki on 16/4/26.
  */
-"use strict";
+(function (RunTypeEnum) {
+    RunTypeEnum[RunTypeEnum["DEBUG"] = 0] = "DEBUG";
+    RunTypeEnum[RunTypeEnum["RELEASE"] = 1] = "RELEASE";
+})(exports.RunTypeEnum || (exports.RunTypeEnum = {}));
+var RunTypeEnum = exports.RunTypeEnum;
+exports.runType = RunTypeEnum.DEBUG;
+exports.isDebug = function () { return exports.runType == RunTypeEnum.DEBUG; };
 (function (StreamSiteEnum) {
     StreamSiteEnum[StreamSiteEnum["YOUKU"] = 0] = "YOUKU";
     StreamSiteEnum[StreamSiteEnum["IQIYI"] = 1] = "IQIYI";
@@ -12,4 +18,4 @@
 })(exports.StreamSiteEnum || (exports.StreamSiteEnum = {}));
 var StreamSiteEnum = exports.StreamSiteEnum;
 exports.StreamSites = [StreamSiteEnum.YOUKU, StreamSiteEnum.IQIYI, StreamSiteEnum.SOHU, StreamSiteEnum.TENCENT, StreamSiteEnum.TUDOU, StreamSiteEnum.LETV];
-//# sourceMappingURL=app.js.map
+//# sourceMappingURL=the_app.js.map

@@ -1,8 +1,7 @@
-"use strict";
 /**
  * Created by natsuki on 16/4/26.
  */
-const loki = require("lokijs");
+var loki = require("lokijs");
 let db = new loki();
 const COLLECTION_USER = "user";
 if (!db.getCollection(COLLECTION_USER)) {
@@ -15,7 +14,9 @@ if (!db.getCollection(COLLECTION_SITES)) {
 }
 let sites = db.getCollection(COLLECTION_SITES);
 function getAccessToken() {
-    return user.findOne();
+    let result = user.findOne().data()[0];
+    if (result && result.token)
+        return result.token;
 }
 exports.getAccessToken = getAccessToken;
 function updateAccessToken(token) {
@@ -24,7 +25,7 @@ function updateAccessToken(token) {
 }
 exports.updateAccessToken = updateAccessToken;
 function getSiteInfo(siteName) {
-    return sites.findOne({ siteName: siteName }).data;
+    return sites.findOne({ siteName: siteName }).data()[0];
 }
 exports.getSiteInfo = getSiteInfo;
 function updateSiteInfo(siteName, account, password) {
