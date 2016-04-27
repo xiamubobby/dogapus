@@ -1,9 +1,8 @@
-"use strict";
 /**
  * Created by natsuki on 16/4/26.
  */
-const the_app_1 = require("../the_app");
-const fs = require("fs");
+var the_app_1 = require("../the_app");
+var fs = require("fs");
 class PageMod {
     constructor(pattern, filenames) {
         this.pattern = pattern;

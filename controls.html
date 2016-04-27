@@ -67,6 +67,7 @@
     var appPath = ipcRenderer.sendSync("get-app-path")
     //const db = low(`${__dirname}/db.json`, { storage });
     const lokidb = require("./lokis/loki_manager");
+    console.log(lokidb.getAccessToken())
     document.getElementById("login-submit").addEventListener("click", function (e) {
         let account = document.getElementById("login-account").value;
         let password = document.getElementById("login-password").value;
@@ -92,6 +93,7 @@
 //                account: body.account,
 //                password: body.password
 //            })
+            console.log(body)
             lokidb.updateSiteInfo("youku", body.account, body.password)
             ipcRenderer.sendToHost("main-webview-loadurl", "http://www.youku.com/")
         });

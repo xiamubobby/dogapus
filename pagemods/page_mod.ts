@@ -3,6 +3,7 @@
  */
 import {StreamSiteEnum, StreamSites} from "../the_app";
 import fs = require("fs");
+import electron = require("electron")
 
 class PageMod {
     constructor(public pattern:(url: string)=>boolean, public filenames: string[]) {

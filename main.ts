@@ -6,6 +6,9 @@ const app = electron.app;
 const ipcMain = electron.ipcMain;
 const BrowserWindow = electron.BrowserWindow;
 import theApp = require("./the_app");
+import "./lokis/loki_manager";
+
+//console.log(loki.getE())
 
 switch(process.platform) {
     case "linux":

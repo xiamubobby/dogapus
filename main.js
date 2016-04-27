@@ -1,12 +1,13 @@
-"use strict";
 /**
  * Created by xiamubobby on 4/27/16.
  */
-const electron = require("electron");
+var electron = require("electron");
 const app = electron.app;
 const ipcMain = electron.ipcMain;
 const BrowserWindow = electron.BrowserWindow;
-const theApp = require("./the_app");
+var theApp = require("./the_app");
+require("./lokis/loki_manager");
+//console.log(loki.getE())
 switch (process.platform) {
     case "linux":
         app.commandLine.appendSwitch('ppapi-flash-path', `${__dirname}./PepperFlash/nix/PepperFlash/libpepflashplayer.so`);
