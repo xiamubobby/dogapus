@@ -1,7 +1,8 @@
+"use strict";
 /**
  * Created by natsuki on 16/4/26.
  */
-var loki = require("lokijs");
+const loki = require("lokijs");
 let db = new loki();
 const COLLECTION_USER = "user";
 if (!db.getCollection(COLLECTION_USER)) {

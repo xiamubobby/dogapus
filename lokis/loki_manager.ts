@@ -4,12 +4,12 @@
 import loki = require("lokijs")
 let db = new loki()
 
-const COLLECTION_USER = "user"
+const COLLECTION_USER = "user";
 if (!db.getCollection(COLLECTION_USER)) {
     db.addCollection(COLLECTION_USER)
 }
 let user = db.getCollection(COLLECTION_USER)
-const COLLECTION_SITES = "sites"
+const COLLECTION_SITES = "sites";
 if (!db.getCollection(COLLECTION_SITES)) {
     db.addCollection(COLLECTION_SITES)
 }

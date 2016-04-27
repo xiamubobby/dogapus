@@ -1,7 +1,7 @@
 /**
  * Created by natsuki on 16/4/26.
  */
-import {StreamSiteEnum, StreamSites} from "the_app.ts";
+import {StreamSiteEnum, StreamSites} from "../the_app";
 import fs = require("fs");
 
 class PageMod {
@@ -29,14 +29,3 @@ export function modWebContent(webContent) {
         }
     }
 }
-
-var dd = {
-    getURL: function () {
-        return "www.youku.com"
-    },
-    executeJavaScript: function (str) {
-        console.log(str)
-    }
-}
-
-modWebContent(dd)

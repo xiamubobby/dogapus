@@ -62,101 +62,94 @@
 
 </div>
 <script>
-    const low = require('lowdb');
-    const storage = require('lowdb/file-sync');
     const ipcRenderer = require('electron').ipcRenderer;
 
     var appPath = ipcRenderer.sendSync("get-app-path")
-    console.log(process.resourcesPath)
-    const db = low(process.resourcesPath + '/db.json', { storage });
+    //const db = low(`${__dirname}/db.json`, { storage });
+    const lokidb = require("./lokis/loki_manager");
     document.getElementById("login-submit").addEventListener("click", function (e) {
         let account = document.getElementById("login-account").value;
         let password = document.getElementById("login-password").value;
         require("./protocols.js").interfaces.login(account, password, function(err, response, body) {
-          console.log("entered")
-            db("token").remove()
-            db("token").push({token: body.accessToken})
-            //console.log(db.object.token)
-            let loginControls = document.getElementById("login-controls")
-            loginControls.style.transform = "translate(0px, -100px)"
-            loginControls.style.opacity = 0
+            lokidb.updateAccessToken(body.accessToken);
+            let loginControls = document.getElementById("login-controls");
+            loginControls.style.transform = "translate(0px, -100px)";
+            loginControls.style.opacity = 0;
             let status = document.getElementById("login-status");
             status.textContent = "logged in (鼠标点击响应较为耗时，请耐心等待)";
             status.style.transform = "translate(0px, 0px)";
             status.style.opacity = 1;
-
-            window.localStorage.setItem("token", body.accessToken);
-            const buttons = document.querySelectorAll("#categories > li > button")
+            const buttons = document.querySelectorAll("#categories > li > button");
             for (var i = 0; i < buttons.length; i++) {
-                buttons[i].disabled = false
+                buttons[i].disabled = false;
             }
         });
     });
     document.getElementById("youku-button").addEventListener("click", function(){
-        console.log("youku-clicked")
         require("./protocols.js").interfaces.getVideoAccount(require("./protocols.js").VideoType.YOUKU_TUDOU, function (err, request, body) {
-            db('video').push({
-                site: "youku",
-                account: body.account,
-                password: body.password
-            })
+//            db('video').push({
+//                site: "youku",
+//                account: body.account,
+//                password: body.password
+//            })
+            lokidb.updateSiteInfo("youku", body.account, body.password)
             ipcRenderer.sendToHost("main-webview-loadurl", "http://www.youku.com/")
         });
 
     });
-    document.getElementById("iqiyi-button").addEventListener("click", function(){
-        require("./protocols.js").interfaces.getVideoAccount(require("./protocols.js").VideoType.IQIYI, function (err, request, body) {
-            db('video').push({
-                site: "iqiyi",
-                account: body.account,
-                password: body.password
-            })
-            ipcRenderer.sendToHost("main-webview-loadurl", "http://www.iqiyi.com/")
-        });
-    });
-    document.getElementById("sohu-button").addEventListener("click", function(){
-        require("./protocols.js").interfaces.getVideoAccount(require("./protocols.js").VideoType.SOHU, function (err, request, body) {
-            db('video').push({
-                site: "sohu",
-                account: body.account,
-                password: body.password
-            })
-            ipcRenderer.sendToHost("main-webview-loadurl", "http://tv.sohu.com/")
-        });
-
-    });
-    document.getElementById("tudou-button").addEventListener("click", function(){
-        require("./protocols.js").interfaces.getVideoAccount(require("./protocols.js").VideoType.YOUKU_TUDOU, function (err, request, body) {
-            db('video').push({
-                site: "tudou",
-                account: body.account,
-                password: body.password
-            })
-            ipcRenderer.sendToHost("main-webview-loadurl", "http://www.tudou.com/")
-        });
-
-    });
-    document.getElementById("tencent-button").addEventListener("click", function(){
-        require("./protocols.js").interfaces.getVideoAccount(require("./protocols.js").VideoType.QQ, function (err, request, body) {
-            db('video').push({
-                site: "tencent",
-                account: body.account,
-                password: body.password
-            })
-            ipcRenderer.sendToHost("main-webview-loadurl", "http://v.qq.com/")
-        });
-
-    });
-    document.getElementById("letv-button").addEventListener("click", function(){
-        require("./protocols.js").interfaces.getVideoAccount(require("./protocols.js").VideoType.LETV, function (err, request, body) {
-            db('video').push({
-                site: "letv",
-                account: body.account,
-                password: body.password
-            })
-            ipcRenderer.sendToHost("main-webview-loadurl", "http://www.le.com/")
-        });
-    });
+//    document.getElementById("iqiyi-button").addEventListener("click", function(){
+//        require("./protocols.js").interfaces.getVideoAccount(require("./protocols.js").VideoType.IQIYI, function (err, request, body) {
+//            db('video').push({
+//                site: "iqiyi",
+//                account: body.account,
+//                password: body.password
+//            })
+//            ipcRenderer.sendToHost("main-webview-loadurl", "http://www.iqiyi.com/")
+//        });
+//    });
+//    document.getElementById("sohu-button").addEventListener("click", function(){
+//        require("./protocols.js").interfaces.getVideoAccount(require("./protocols.js").VideoType.SOHU, function (err, request, body) {
+//            db('video').push({
+//                site: "sohu",
+//                account: body.account,
+//                password: body.password
+//            })
+//            ipcRenderer.sendToHost("main-webview-loadurl", "http://tv.sohu.com/")
+//        });
+//
+//    });
+//    document.getElementById("tudou-button").addEventListener("click", function(){
+//        require("./protocols.js").interfaces.getVideoAccount(require("./protocols.js").VideoType.YOUKU_TUDOU, function (err, request, body) {
+//            db('video').push({
+//                site: "tudou",
+//                account: body.account,
+//                password: body.password
+//            })
+//            ipcRenderer.sendToHost("main-webview-loadurl", "http://www.tudou.com/")
+//        });
+//
+//    });
+//    document.getElementById("tencent-button").addEventListener("click", function(){
+//        require("./protocols.js").interfaces.getVideoAccount(require("./protocols.js").VideoType.QQ, function (err, request, body) {
+//            db('video').push({
+//                site: "tencent",
+//                account: body.account,
+//                password: body.password
+//            })
+//            ipcRenderer.sendToHost("main-webview-loadurl", "http://v.qq.com/")
+//        });
+//
+//    });
+//    document.getElementById("letv-button").addEventListener("click", function(){
+//        require("./protocols.js").interfaces.getVideoAccount(require("./protocols.js").VideoType.LETV, function (err, request, body) {
+//            db('video').push({
+//                site: "letv",
+//                account: body.account,
+//                password: body.password
+//            })
+//            ipcRenderer.sendToHost("main-webview-loadurl", "http://www.le.com/")
+//        });
+//    });
     document.getElementById("extra-button").addEventListener("click", function(){
         if (confirm("r u sure u r alone?!~")) {
             ipcRenderer.sendToHost("main-webview-loadurl", "http://www.sex.com/")

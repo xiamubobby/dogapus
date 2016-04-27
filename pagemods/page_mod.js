@@ -1,8 +1,9 @@
+"use strict";
 /**
  * Created by natsuki on 16/4/26.
  */
-var the_app_ts_1 = require("the_app.ts");
-var fs = require("fs");
+const the_app_1 = require("../the_app");
+const fs = require("fs");
 class PageMod {
     constructor(pattern, filenames) {
         this.pattern = pattern;
@@ -10,8 +11,8 @@ class PageMod {
     }
 }
 var pageModes = {};
-for (const site of the_app_ts_1.StreamSites) {
-    const siteName = the_app_ts_1.StreamSiteEnum[site];
+for (const site of the_app_1.StreamSites) {
+    const siteName = the_app_1.StreamSiteEnum[site];
     const files = fs.readdirSync(`${__dirname}/${siteName.toLowerCase()}`);
     pageModes[siteName] = new PageMod((url) => url.includes(siteName.toLowerCase()), files.filter((element) => element.endsWith(".js")));
 }
@@ -28,13 +29,4 @@ function modWebContent(webContent) {
     }
 }
 exports.modWebContent = modWebContent;
-var dd = {
-    getURL: function () {
-        return "www.youku.com";
-    },
-    executeJavaScript: function (str) {
-        console.log(str);
-    }
-};
-modWebContent(dd);
 //# sourceMappingURL=page_mod.js.map

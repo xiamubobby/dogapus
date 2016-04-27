@@ -3,11 +3,12 @@
  * Created by natsuki on 16/4/21.
  */
 var request = require("request")
-const low = require('lowdb');
-const storage = require('lowdb/file-sync');
+// const low = require('lowdb');
+// const storage = require('lowdb/file-sync');
 const ipcMain = require("electron").ipcRenderer
+const lokidb = require("./lokis/loki_manager")
 
-var db = low(`${process.resourcesPath}/db.json`, { storage });
+//var db = low(`${process.resourcesPath}/db.json`, { storage });
 const BASE_URL = "http://115.28.176.74:8080/ikan/";
 const Methods = {
     GET: "GET",
@@ -54,14 +55,14 @@ var interfaces = {
         })
     },
     getVideoAccount: function (videoType, cb) {
-        db = low(`${process.resourcesPath}/db.json`, { storage });
-        var token = db("token").first().token
-        console.log(token)
+        //db = low(`${process.resourcesPath}/db.json`, { storage });
+        // var token = db("token").first().token
+        console.log(lokidb.getAccessToken())
         return request({
             method: "GET",
             uri: `${BASE_URL}user/getIkanAccount`,
             headers: {
-                'accessToken': token//"ab9ee028-c2a1-4751-8af2-5be622d25874"//db.object.token[db.object.token.length-1]
+                'accessToken': lokidb.getAccessToken()//token//"ab9ee028-c2a1-4751-8af2-5be622d25874"//db.object.token[db.object.token.length-1]
             },
             qs: {
                 website: videoType
