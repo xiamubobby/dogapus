@@ -1,8 +1,9 @@
+"use strict";
 /**
  * Created by xiamubobby on 4/27/16.
  */
-var pageMod = require("./pagemods/page_mod");
-var theApp = require("./the_app");
+const pageMod = require("./pagemods/page_mod");
+const theApp = require("./the_app");
 let mainWebView = document.getElementById("mainwebview");
 let cover = document.getElementById("cover");
 let controls = document.getElementById("controlwebview");
@@ -38,7 +39,6 @@ controls.addEventListener("ipc-message", function (e) {
             cover.style.display = "inline";
             cover.style.opacity = "1.0";
             if (e.args.length > 0) {
-                console.log(e.args[0]);
                 try {
                     mainWebView.loadURL(e.args[0]);
                 }

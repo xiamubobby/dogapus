@@ -88,7 +88,7 @@ for (const signal in Signals) {
                             .map((part, index)=>(index != 0) ? `${part[0].toUpperCase()}${part.slice(1).toLowerCase()}` : part.toLowerCase())
                         .join("")]
                     (event, ...arg)
-                //enums are logged as int in node environment but as string in browser environment, which is strange
+                //enums are logged as int in node environment but as string in browser environment, which is strange.
             )
         }
     }

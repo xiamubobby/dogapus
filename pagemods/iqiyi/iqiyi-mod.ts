@@ -1,7 +1,7 @@
 /**
- *
- * Created by xiamubobby on 4/22/16.
+ * Created by natsuki on 16/4/28.
  */
+console.log("iqiyi-mod loading");
 var mutationObserver = new MutationObserver(function (mutations) {
     for (const mutation of mutations) {
         if (mutation.type == "childList" && mutation.addedNodes && mutation.addedNodes.length != 0) {
@@ -9,12 +9,14 @@ var mutationObserver = new MutationObserver(function (mutations) {
                 const node = mutation.addedNodes[i]
                 if (node.nodeName == "DIV") {
                     if (node.id == "qipaLoginIfr") {
-                        const email = node.querySelector("input[data-loginbox-elem='emailInput']")
+                        console.log("first")
+                        const info = loki.getSiteInfo("iqiyi");
+                        const email = node.querySelector("input[data-loginbox-elem='emailInput']");
                         email.placeholder = ""
-                        email.value = db("video").find({site: "iqiyi"}).account//"jb"
-                        const passwd = node.querySelector("input[data-loginbox-elem='passwdInput'")
+                        email.value = info.account;//db("video").find({site: "iqiyi"}).account//"jb";
+                        const passwd = node.querySelector("input[data-loginbox-elem='passwdInput'");
                         passwd.placeholder = ""
-                        passwd.value = db("video").find({site: "iqiyi"}).password//"penis"
+                        passwd.value = info.password;//db("video").find({site: "iqiyi"}).password//"penis";
                     }
                 }
             }
@@ -24,4 +26,5 @@ var mutationObserver = new MutationObserver(function (mutations) {
 mutationObserver.observe(document, {
     "childList": true,
     "subtree": true
-})
+});
+console.log("iqiyi-mod loaded");

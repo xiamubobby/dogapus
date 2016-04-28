@@ -1,7 +1,7 @@
 /**
- *
- * Created by natsuki on 16/4/22.
+ * Created by natsuki on 16/4/28.
  */
+console.log("sohu-mod loading");
 var mutationObserver = new MutationObserver(function (mutations) {
     for (const mutation of mutations) {
         if (mutation.type == "childList" && mutation.addedNodes && mutation.addedNodes.length != 0) {
@@ -9,13 +9,13 @@ var mutationObserver = new MutationObserver(function (mutations) {
                 const node = mutation.addedNodes[i]
                 if (node.nodeName == "DIV") {
                     if (node.classList.contains("globallogin")) {
-                        console.log(node)
-                        const email = node.querySelector("input[name='email']")
+                        const info = loki.getSiteInfo("sohu");
+                        const email = node.querySelector("input[name='email']");
                         email.placeholder = ""
-                        email.value = db("video").find({site: "sohu"}).account//"jb"
-                        const passwd = node.querySelector("input[name='password']")
+                        email.value = info.account;//db("video").find({site: "sohu"}).account//"jb"
+                        const passwd = node.querySelector("input[name='password']");
                         passwd.placeholder = ""
-                        passwd.value = db("video").find({site: "sohu"}).password//"penis"
+                        passwd.value = info.password;//db("video").find({site: "sohu"}).password//"penis"
                     }
                 }
             }
@@ -25,4 +25,5 @@ var mutationObserver = new MutationObserver(function (mutations) {
 mutationObserver.observe(document, {
     "childList": true,
     "subtree": true
-})
+});
+console.log("sohu-mod loaded");

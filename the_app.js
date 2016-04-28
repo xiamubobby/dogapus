@@ -1,3 +1,4 @@
+"use strict";
 /**
  * Created by natsuki on 16/4/26.
  */
@@ -18,4 +19,12 @@ exports.isDebug = function () { return exports.runType == RunTypeEnum.DEBUG; };
 })(exports.StreamSiteEnum || (exports.StreamSiteEnum = {}));
 var StreamSiteEnum = exports.StreamSiteEnum;
 exports.StreamSites = [StreamSiteEnum.YOUKU, StreamSiteEnum.IQIYI, StreamSiteEnum.SOHU, StreamSiteEnum.TENCENT, StreamSiteEnum.TUDOU, StreamSiteEnum.LETV];
+let SiteDomains = {};
+exports.SiteDomains = SiteDomains;
+SiteDomains[StreamSiteEnum.YOUKU] = "youku";
+SiteDomains[StreamSiteEnum.IQIYI] = "iqiyi";
+SiteDomains[StreamSiteEnum.SOHU] = "sohu";
+SiteDomains[StreamSiteEnum.TENCENT] = "qq";
+SiteDomains[StreamSiteEnum.TUDOU] = "tudou";
+SiteDomains[StreamSiteEnum.LETV] = "le";
 //# sourceMappingURL=the_app.js.map

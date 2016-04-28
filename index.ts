@@ -46,7 +46,6 @@ controls.addEventListener("ipc-message", function (e) {
             cover.style.display = "inline";
             cover.style.opacity = "1.0";
             if (e.args.length > 0 ) {
-                console.log(e.args[0])
                 try {
                     mainWebView.loadURL(e.args[0]);
                 } catch(err) {

@@ -12,10 +12,10 @@ import "./lokis/loki_manager";
 
 switch(process.platform) {
     case "linux":
-        app.commandLine.appendSwitch('ppapi-flash-path', `${__dirname}./PepperFlash/nix/PepperFlash/libpepflashplayer.so`);
+        app.commandLine.appendSwitch('ppapi-flash-path', `${__dirname}/PepperFlash/nix/PepperFlash/libpepflashplayer.so`);
         break;
     case "darwin":
-        app.commandLine.appendSwitch('ppapi-flash-path', `${__dirname}./PepperFlash/osx/PepperFlashPlayer.plugin`);
+        app.commandLine.appendSwitch('ppapi-flash-path', `${__dirname}/PepperFlash/osx/PepperFlashPlayer.plugin`);
         break;
     default:
         app.commandLine.appendSwitch('ppapi-flash-path',`${__dirname}\\PepperFlash\\win32\\PepperFlash\\pepflashplayer.dll`);

@@ -1,6 +1,7 @@
 /**
- * Created by natsuki on 16/4/22.
+ * Created by natsuki on 16/4/28.
  */
+console.log("letv-mod loading")
 var mutationObserver = new MutationObserver(function (mutations) {
     for (const mutation of mutations) {
         if (mutation.type == "childList" && mutation.addedNodes && mutation.addedNodes.length != 0) {
@@ -10,14 +11,14 @@ var mutationObserver = new MutationObserver(function (mutations) {
                     if (node.id == ("j-load")) {
                         const frame = node.querySelector("iframe")
                         frame.addEventListener("load", function (e) {
-                            const fd = frame.contentDocument
-                            console.log(fd)
+                            const info = loki.getSiteInfo("letv");
+                            const fd = frame.contentDocument;
                             const email = fd.querySelector("#loginname")
-                            email.placeholder = ""
-                            email.value = db("video").find({site: "letv"}).account//"jb"
+                            email.placeholder = "";
+                            email.value = info.account;//db("video").find({site: "letv"}).account//"jb"
                             const passwd = fd.querySelector("#password")
-                            passwd.placeholder = ""
-                            passwd.value = db("video").find({site: "letv"}).password//"penis"
+                            passwd.placeholder = "";
+                            passwd.value = info.passowrd;//db("video").find({site: "letv"}).password//"penis"
                         })
                     }
                 }
@@ -29,3 +30,4 @@ mutationObserver.observe(document, {
     "childList": true,
     "subtree": true
 })
+console.log("letv-mod loaded")

@@ -93,68 +93,47 @@
 //                account: body.account,
 //                password: body.password
 //            })
-            console.log(body)
-            lokidb.updateSiteInfo("youku", body.account, body.password)
+            lokidb.updateSiteInfo("youku", body.account, body.password);
             ipcRenderer.sendToHost("main-webview-loadurl", "http://www.youku.com/")
         });
 
     });
-//    document.getElementById("iqiyi-button").addEventListener("click", function(){
-//        require("./protocols.js").interfaces.getVideoAccount(require("./protocols.js").VideoType.IQIYI, function (err, request, body) {
-//            db('video').push({
-//                site: "iqiyi",
-//                account: body.account,
-//                password: body.password
-//            })
-//            ipcRenderer.sendToHost("main-webview-loadurl", "http://www.iqiyi.com/")
-//        });
-//    });
-//    document.getElementById("sohu-button").addEventListener("click", function(){
-//        require("./protocols.js").interfaces.getVideoAccount(require("./protocols.js").VideoType.SOHU, function (err, request, body) {
-//            db('video').push({
-//                site: "sohu",
-//                account: body.account,
-//                password: body.password
-//            })
-//            ipcRenderer.sendToHost("main-webview-loadurl", "http://tv.sohu.com/")
-//        });
-//
-//    });
-//    document.getElementById("tudou-button").addEventListener("click", function(){
-//        require("./protocols.js").interfaces.getVideoAccount(require("./protocols.js").VideoType.YOUKU_TUDOU, function (err, request, body) {
-//            db('video').push({
-//                site: "tudou",
-//                account: body.account,
-//                password: body.password
-//            })
-//            ipcRenderer.sendToHost("main-webview-loadurl", "http://www.tudou.com/")
-//        });
-//
-//    });
-//    document.getElementById("tencent-button").addEventListener("click", function(){
-//        require("./protocols.js").interfaces.getVideoAccount(require("./protocols.js").VideoType.QQ, function (err, request, body) {
-//            db('video').push({
-//                site: "tencent",
-//                account: body.account,
-//                password: body.password
-//            })
-//            ipcRenderer.sendToHost("main-webview-loadurl", "http://v.qq.com/")
-//        });
-//
-//    });
-//    document.getElementById("letv-button").addEventListener("click", function(){
-//        require("./protocols.js").interfaces.getVideoAccount(require("./protocols.js").VideoType.LETV, function (err, request, body) {
-//            db('video').push({
-//                site: "letv",
-//                account: body.account,
-//                password: body.password
-//            })
-//            ipcRenderer.sendToHost("main-webview-loadurl", "http://www.le.com/")
-//        });
-//    });
+    document.getElementById("iqiyi-button").addEventListener("click", function(){
+        require("./protocols.js").interfaces.getVideoAccount(require("./protocols.js").VideoType.IQIYI, function (err, request, body) {
+            lokidb.updateSiteInfo("iqiyi", body.account, body.password);
+            ipcRenderer.sendToHost("main-webview-loadurl", "http://www.iqiyi.com/");
+        });
+    });
+    document.getElementById("sohu-button").addEventListener("click", function(){
+        require("./protocols.js").interfaces.getVideoAccount(require("./protocols.js").VideoType.SOHU, function (err, request, body) {
+            lokidb.updateSiteInfo("sohu", body.account, body.password);
+            ipcRenderer.sendToHost("main-webview-loadurl", "http://tv.sohu.com/");
+        });
+
+    });
+    document.getElementById("tudou-button").addEventListener("click", function(){
+        require("./protocols.js").interfaces.getVideoAccount(require("./protocols.js").VideoType.YOUKU_TUDOU, function (err, request, body) {
+            lokidb.updateSiteInfo("tudou", body.account, body.password);
+            ipcRenderer.sendToHost("main-webview-loadurl", "http://www.tudou.com/");
+        });
+
+    });
+    document.getElementById("tencent-button").addEventListener("click", function(){
+        require("./protocols.js").interfaces.getVideoAccount(require("./protocols.js").VideoType.QQ, function (err, request, body) {
+            lokidb.updateSiteInfo("tencent", body.account, body.password);
+            ipcRenderer.sendToHost("main-webview-loadurl", "http://v.qq.com/");
+        });
+
+    });
+    document.getElementById("letv-button").addEventListener("click", function(){
+        require("./protocols.js").interfaces.getVideoAccount(require("./protocols.js").VideoType.LETV, function (err, request, body) {
+            lokidb.updateSiteInfo("letv", body.account, body.password);
+            ipcRenderer.sendToHost("main-webview-loadurl", "http://www.le.com/");
+        });
+    });
     document.getElementById("extra-button").addEventListener("click", function(){
         if (confirm("r u sure u r alone?!~")) {
-            ipcRenderer.sendToHost("main-webview-loadurl", "http://www.sex.com/")
+            ipcRenderer.sendToHost("main-webview-loadurl", "http://www.sex.com/");
         }
     });
 </script>

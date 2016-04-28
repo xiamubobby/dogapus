@@ -2,6 +2,7 @@
  * Created by natsuki on 16/4/27.
  */
 ///<reference path="../../lowdbinjection.js" />
+console.log("youku-mod loaded");
 var mutationObserver = new MutationObserver(function (mutations) {
     for (const mutation of mutations) {
         if (mutation.type == "childList" && mutation.addedNodes && mutation.addedNodes.length != 0) {
@@ -14,9 +15,6 @@ var mutationObserver = new MutationObserver(function (mutations) {
                         passport.placeholder = "";
                         passport.value = info.account;
                         let password = node.contentDocument.getElementById("password");
-                        password.addEventListener("change", function (e) {
-                            console.log(e);
-                        });
                         password.placeholder = "";
                         password.value = info.password;
                     });

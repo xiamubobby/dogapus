@@ -1,8 +1,9 @@
+"use strict";
 /**
  * Created by natsuki on 16/4/26.
  */
-var loki = require("lokijs");
-var electron = require("electron");
+const loki = require("lokijs");
+const electron = require("electron");
 let db = new loki();
 const ipcMain = electron.ipcMain;
 const ipcRenderer = electron.ipcRenderer;
