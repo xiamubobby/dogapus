@@ -14,7 +14,6 @@ var pageModes = {};
 for (const site of the_app_1.StreamSites) {
     const siteName = the_app_1.StreamSiteEnum[site];
     const files = fs.readdirSync(`${__dirname}/${siteName.toLowerCase()}`);
-    console.log(`${siteName} : ${the_app_1.SiteDomains[site]}`);
     pageModes[siteName] = new PageMod((url) => url.includes(the_app_1.SiteDomains[site]), files.filter((element) => element.endsWith(".js")));
 }
 function modWebContent(webContent) {

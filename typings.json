@@ -2,6 +2,7 @@
   "ambientDependencies": {
     "electron": "registry:env/electron#0.37.6+20160416165306",
     "lokijs": "registry:dt/lokijs#0.0.0+20160316155526",
-    "node": "registry:dt/node#4.0.0+20160423143914"
+    "node": "registry:dt/node#4.0.0+20160423143914",
+    "request": "registry:dt/request#0.0.0+20160316155526"
   }
 }

@@ -8,8 +8,6 @@ const BrowserWindow = electron.BrowserWindow;
 import theApp = require("./the_app");
 import "./lokis/loki_manager";
 
-//console.log(loki.getE())
-
 switch(process.platform) {
     case "linux":
         app.commandLine.appendSwitch('ppapi-flash-path', `${__dirname}/PepperFlash/nix/PepperFlash/libpepflashplayer.so`);
@@ -36,8 +34,9 @@ app.on('window-all-closed', function() {
 
 app.on('ready', function() {
     mainWindow = new BrowserWindow({
-        width: 1440, height: 960,
-        "webSecurity": false
+        width: 1440,
+        height: 960,
+        webSecurity: false
     });
 
     mainWindow.loadURL('file://' + __dirname + '/index.html');

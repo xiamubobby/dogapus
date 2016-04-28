@@ -65,7 +65,6 @@
     const ipcRenderer = require('electron').ipcRenderer;
 
     var appPath = ipcRenderer.sendSync("get-app-path")
-    //const db = low(`${__dirname}/db.json`, { storage });
     const lokidb = require("./lokis/loki_manager");
     console.log(lokidb.getAccessToken())
     document.getElementById("login-submit").addEventListener("click", function (e) {
@@ -88,11 +87,6 @@
     });
     document.getElementById("youku-button").addEventListener("click", function(){
         require("./protocols.js").interfaces.getVideoAccount(require("./protocols.js").VideoType.YOUKU_TUDOU, function (err, request, body) {
-//            db('video').push({
-//                site: "youku",
-//                account: body.account,
-//                password: body.password
-//            })
             lokidb.updateSiteInfo("youku", body.account, body.password);
             ipcRenderer.sendToHost("main-webview-loadurl", "http://www.youku.com/")
         });

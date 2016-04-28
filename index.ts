@@ -12,14 +12,6 @@ let controls: WebViewElement = <WebViewElement> document.getElementById("control
 controls.setAttribute("src", `file://${__dirname}/controls.html`);
 mainWebView.setAttribute("preload", `file://${__dirname}/lowdbinjection.js`);
 
-[mainWebView, controls].forEach(function (webView: WebViewElement) {
-    webView.addEventListener("did-finish-load", function (event) {
-        if (theApp.isDebug()) {
-            (<WebViewElement> event.target).getWebContents().openDevTools();
-        }
-    });
-});
-
 mainWebView.addEventListener("new-window", function(e){ mainWebView.loadURL(e.url) });
 mainWebView.addEventListener("console-message", function (event) {
     // console.log(event.target);
@@ -53,6 +45,14 @@ controls.addEventListener("ipc-message", function (e) {
                 }
             }
     }
+});
+
+[mainWebView, controls].forEach(function (webView: WebViewElement) {
+    webView.addEventListener("did-finish-load", function (event) {
+        if (theApp.isDebug()) {
+            (<WebViewElement> event.target).getWebContents().openDevTools();
+        }
+    });
 });
 
 document.addEventListener("mousemove", function(e){

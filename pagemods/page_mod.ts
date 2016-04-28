@@ -15,7 +15,6 @@ var pageModes: {[key: string]: PageMod} = {};
 for (const site of StreamSites) {
     const siteName = StreamSiteEnum[site];
     const files = fs.readdirSync(`${__dirname}/${siteName.toLowerCase()}`);
-    console.log(`${siteName} : ${SiteDomains[site]}`)
     pageModes[siteName] = new PageMod((url)=>url.includes(SiteDomains[site]), files.filter((element)=>element.endsWith(".js")));
 }
 
@@ -27,7 +26,6 @@ export function modWebContent(webContent: WebContents) {
                 for (const fileName of pageMod.filenames) {
                     webContent.executeJavaScript(fs.readFileSync(`${__dirname}/${siteName.toLowerCase()}/${fileName}`, {encoding: "utf-8"}))
                 }
-                //break;
             }
         }
     }
