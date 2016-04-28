@@ -1,9 +1,8 @@
-"use strict";
 /**
  * Created by natsuki on 16/4/26.
  */
-const request = require("request");
-const lokidb = require("./lokis/loki_manager");
+var request = require("request");
+var lokidb = require("./lokis/loki_manager");
 const BASE_URL = "http://115.28.176.74:8080/ikan/";
 const Methods = {
     GET: "GET",
