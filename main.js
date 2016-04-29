@@ -1,11 +1,12 @@
+"use strict";
 /**
  * Created by xiamubobby on 4/27/16.
  */
-var electron = require("electron");
+const electron = require("electron");
 const app = electron.app;
 const ipcMain = electron.ipcMain;
 const BrowserWindow = electron.BrowserWindow;
-var theApp = require("./the_app");
+const theApp = require("./the_app");
 require("./lokis/loki_manager");
 switch (process.platform) {
     case "linux":

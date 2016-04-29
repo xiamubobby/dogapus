@@ -2,7 +2,7 @@
  * Created by natsuki on 16/4/27.
  */
 ///<reference path="../../lowdbinjection.js" />
-console.log("youku-mod loaded");
+console.log("youku-mod loading");
 var mutationObserver = new MutationObserver(function (mutations) {
     for (const mutation of mutations) {
         if (mutation.type == "childList" && mutation.addedNodes && mutation.addedNodes.length != 0) {
@@ -11,13 +11,26 @@ var mutationObserver = new MutationObserver(function (mutations) {
                 if (node.nodeName == "IFRAME") {
                     node.addEventListener("load", function (e) {
                         const info = loki.getSiteInfo("youku");
-                        let passport = node.contentDocument.getElementById("passport");
+                        let passport = (node.contentDocument.getElementById("passport"));
                         passport.placeholder = "";
                         passport.value = info.account;
-                        let password = node.contentDocument.getElementById("password");
+                        let password = (node.contentDocument.getElementById("password"));
                         password.placeholder = "";
                         password.value = info.password;
                     });
+                }
+                if (node.nodeName == "DIV") {
+                    if (node.attributes.getNamedItem("id").value == "YT-loginFramePop") {
+                        const info = loki.getSiteInfo("youku");
+                        let yt_passport = (document.getElementById("YT-ytaccount"));
+                        yt_passport.placeholder = "";
+                        yt_passport.value = info.account;
+                        let yt_password = (document.getElementById("YT-ytpassword"));
+                        yt_password.placeholder = "";
+                        yt_password.value = info.password;
+                    }
+                }
+                if (node.attributes.getNamedItem("class")) {
                 }
             }
         }
@@ -27,4 +40,5 @@ mutationObserver.observe(document, {
     "childList": true,
     "subtree": true
 });
+console.log("youku-mod loaded");
 //# sourceMappingURL=youku_mod.js.map

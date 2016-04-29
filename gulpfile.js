@@ -35,7 +35,7 @@ gulp.task("setUpLinux", function () {
 
 gulp.task("copyElectronPrebuilt", function () {
     return gulp.src(electronPrebuiltDir)
-        .pipe(unzip())
+        .pipe(unzip({ keepEmpty : true }))
         .pipe(gulp.dest(outDir))
 });
 

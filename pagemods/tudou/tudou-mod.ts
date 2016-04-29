@@ -1,6 +1,7 @@
 /**
  * Created by natsuki on 16/4/28.
  */
+console.log("tudou-mod loading")
 var mutationObserver = new MutationObserver(function (mutations) {
     for (const mutation of mutations) {
         if (mutation.type == "childList" && mutation.addedNodes && mutation.addedNodes.length != 0) {
@@ -28,6 +29,9 @@ var mutationObserver = new MutationObserver(function (mutations) {
                         });
                     }
                 }
+                if (node.nodeName == "SPAN" && node.attributes.getNamedItem("class")) {
+                    console.log(node.attributes.getNamedItem("class"))
+                }
             }
         }
     }
@@ -35,4 +39,5 @@ var mutationObserver = new MutationObserver(function (mutations) {
 mutationObserver.observe(document, {
     "childList": true,
     "subtree": true
-})
+});
+console.log("tudou-mod loaded")

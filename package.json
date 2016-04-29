@@ -1,7 +1,7 @@
 {
   "name": "electron-test",
   "version": "0.1.1",
-  "main": "test.asar/main.js",
+  "main": "main.js",
   "dependencies": {
     "lokijs": "^1.3.16",
     "lowdb": "^0.12.5",
