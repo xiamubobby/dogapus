@@ -9,10 +9,12 @@
   },
   "devDependencies": {
     "asar": "^0.11.0",
-    "gulp": "^3.9.1",
-    "gulp-clean": "^0.3.2",
-    "gulp-decompress": "^1.2.0",
-    "gulp-unzip": "^0.1.4",
-    "gulp-zip": "^3.2.0"
+    "fs-extra": "^0.30.0",
+    "glob": "^7.0.3",
+    "unzip": "^0.1.11"
+  },
+  "scripts": {
+    "screw": "node buildscripts/screw.js",
+    "driver": "node buildscripts/driver.js"
   }
 }
