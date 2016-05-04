@@ -1,5 +1,4 @@
 "use strict";
-const asar = require("asar");
 const glob = require("glob");
 const fse = require("fs-extra");
 const CONFIG_1 = require("./CONFIG");
@@ -18,11 +17,14 @@ glob("!(node_modules|electron_prebuilt|PepperFlash|buildscripts|out|tools|typing
         fse.copySync(file, `${resourcePath}/app/${file}`);
     }
 });
-glob("node_modules/{lokijs, request}", {}, function (err, files) {
+glob("node_modules/lokijs", {}, function (err, files) {
     for (const file of files) {
         fse.copySync(file, `${resourcePath}/app/${file}`);
     }
 });
-asar.createPackage(`${resourcePath}/app`, `${resourcePath}/app.asar`, function () {
+glob("node_modules/request", {}, function (err, files) {
+    for (const file of files) {
+        fse.copySync(file, `${resourcePath}/app/${file}`);
+    }
 });
 //# sourceMappingURL=driver.js.map

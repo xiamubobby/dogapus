@@ -3,9 +3,10 @@
  */
 import unzip = require("unzip");
 import fs = require("fs");
-import asar = require("asar");
+import asar = require("daf");
 import glob = require("glob");
 import fse = require("fs-extra");
+import uglf = require("uglify-js");
 
 import {ROOT_PATH, TARGET} from "./CONFIG";
 
@@ -21,16 +22,21 @@ glob("!(node_modules|electron_prebuilt|PepperFlash|buildscripts|out|tools|typing
         fse.copySync(file, `${resourcePath}/app/${file}`);
     }
 });
+
 glob("!(node_modules|electron_prebuilt|PepperFlash|buildscripts|out|tools|typings)/**/!(*.ts|*.js.map|tsconfig.json|typings.json|gulpfile.js|*.asar)", {}, function (err, files) {
     for(const file of files) {
         fse.copySync(file, `${resourcePath}/app/${file}`);
     }
 });
 
-glob("node_modules/{lokijs, request}", {}, function (err, files) {
+glob("node_modules/lokijs", {}, function (err, files) {
     for(const file of files) {
         fse.copySync(file, `${resourcePath}/app/${file}`);
     }
 });
-asar.createPackage(`${resourcePath}/app`, `${resourcePath}/app.asar`, function () {
+
+glob("node_modules/request", {}, function (err, files) {
+    for(const file of files) {
+        fse.copySync(file, `${resourcePath}/app/${file}`);
+    }
 });

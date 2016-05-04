@@ -8,15 +8,19 @@ const BrowserWindow = electron.BrowserWindow;
 import theApp = require("./the_app");
 import "./lokis/loki_manager";
 
+let flashPath = "";
 switch(process.platform) {
     case "linux":
-        app.commandLine.appendSwitch('ppapi-flash-path', `${__dirname}/PepperFlash/linux/PepperFlash/libpepflashplayer.so`);
+        flashPath = `${__dirname.split("/").slice(0, -1).join("/")}/PepperFlash/linux/PepperFlash/libpepflashplayer.so`;
+        app.commandLine.appendSwitch('ppapi-flash-path', flashPath);
         break;
     case "darwin":
-        app.commandLine.appendSwitch('ppapi-flash-path', `${__dirname}/PepperFlash/osx/PepperFlashPlayer.plugin`);
+        flashPath = `${__dirname.split("/").slice(0, -1).join("/")}/PepperFlash/osx/PepperFlashPlayer.plugin`;
+        app.commandLine.appendSwitch('ppapi-flash-path', flashPath);
         break;
     default:
-        app.commandLine.appendSwitch('ppapi-flash-path',`${__dirname}\\PepperFlash\\win32\\PepperFlash\\pepflashplayer.dll`);
+        flashPath = `${__dirname.split("\\").slice(0, -1).join("\\")}\\PepperFlash\\win32\\PepperFlash\\pepflashplayer.dll`;
+        app.commandLine.appendSwitch('ppapi-flash-path', flashPath);
         break;
 }
 
