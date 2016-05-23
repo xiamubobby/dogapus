@@ -7,7 +7,7 @@
     RunTypeEnum[RunTypeEnum["RELEASE"] = 1] = "RELEASE";
 })(exports.RunTypeEnum || (exports.RunTypeEnum = {}));
 var RunTypeEnum = exports.RunTypeEnum;
-exports.runType = RunTypeEnum.RELEASE;
+exports.runType = RunTypeEnum.DEBUG;
 exports.isDebug = function () { return exports.runType == RunTypeEnum.DEBUG; };
 (function (StreamSiteEnum) {
     StreamSiteEnum[StreamSiteEnum["YOUKU"] = 0] = "YOUKU";

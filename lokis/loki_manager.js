@@ -58,6 +58,19 @@ function getSiteInfo(eventOrSiteName, payloadSiteName) {
     }
 }
 exports.getSiteInfo = getSiteInfo;
+// export function updateSiteInfo(siteName: string, account: string, password: string) {
+//     return ipcRenderer.sendSync(Signals.UPDATE_SITE_INFO, siteName, account, password);
+// }
+//
+// export function updateSiteInfo(event: IpcMainEvent, siteName: string, account: string, password: string) {
+//     sites.removeWhere({siteName: siteName});
+//     sites.insert({
+//         siteName: siteName,
+//         account: account,
+//         password: password
+//     });
+//     event.returnValue = null;
+// }
 function updateSiteInfo(eventOrSiteName, payloadSiteNameOrAccount, payloadAccountOrPassword, payloadPassword) {
     if (ipcRenderer) {
         return ipcRenderer.sendSync(Signals.UPDATE_SITE_INFO, eventOrSiteName, payloadSiteNameOrAccount, payloadAccountOrPassword);

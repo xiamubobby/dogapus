@@ -18,6 +18,7 @@
     "screw": "node buildscripts/screw.js",
     "driver": "node buildscripts/driver.js",
     "box": "node buildscripts/box.js",
-    "daf": "node buildscripts/daf.js"
+    "daf": "node buildscripts/daf.js",
+    "build": "node buildscripts/screw.js ; node buildscripts/driver.js ; node buildscripts/box.js ; node buildscripts/daf.js"
   }
 }

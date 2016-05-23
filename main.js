@@ -6,6 +6,7 @@ const electron = require("electron");
 const app = electron.app;
 const ipcMain = electron.ipcMain;
 const BrowserWindow = electron.BrowserWindow;
+const Menu = electron.Menu;
 const theApp = require("./the_app");
 require("./lokis/loki_manager");
 let flashPath = "";
@@ -16,6 +17,8 @@ switch (process.platform) {
         break;
     case "darwin":
         flashPath = `${__dirname.split("/").slice(0, -1).join("/")}/PepperFlash/osx/PepperFlashPlayer.plugin`;
+        flashPath = `${__dirname}/PepperFlash/osx/PepperFlashPlayer.plugin`;
+        console.log(flashPath);
         app.commandLine.appendSwitch('ppapi-flash-path', flashPath);
         break;
     default:
@@ -24,6 +27,17 @@ switch (process.platform) {
         break;
 }
 ipcMain.on("get-app-path", function (e) { e.returnValue = app.getAppPath(); });
+let template = [{
+        label: "Account",
+        submenu: [
+            {
+                label: "Login",
+                click: function () {
+                    app.quit();
+                }
+            }
+        ]
+    }];
 let mainWindow = null;
 app.on('window-all-closed', function () {
     if (process.platform != 'darwin') {
@@ -34,6 +48,8 @@ app.on('window-all-closed', function () {
     }
 });
 app.on('ready', function () {
+    const menu = Menu.buildFromTemplate(template);
+    Menu.setApplicationMenu(menu);
     mainWindow = new BrowserWindow({
         width: 1440,
         height: 960,

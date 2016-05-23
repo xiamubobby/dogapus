@@ -4,25 +4,16 @@
     <meta charset="UTF-8">
     <title>!</title>
     <link rel="stylesheet" href="main.css">
-    <style>
-        #cover {
-            position: fixed;
-            width: 100%;
-            height: 100%;
-            background-color: #03A9F4;
-            transition-property: opacity;
-            transition-duration: 1.5s;
-        }
-    </style>
+    <link rel="stylesheet" href="index.css">
 </head>
 <body>
 <webview preload="./lowdbinjection.js" id="mainwebview" plugins disablewebsecurity style="width:100%; height:100%; position: fixed"></webview>
-<div id="cover" style="width: 100%; height: 100%;" >
-    <span style="color: black; font-size: 1000%; position: absolute; top: 50%; left: 50%; transform: translate(-48%,-48%); opacity: 0.2">观影从未如此简单</span>
-    <span style="color: white; font-size: 1000%; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);">观影从未如此简单</span>
-    <span style="color: white;">鼠标移至左上角将打开工具栏</span>
-</div>
-<webview id="controlwebview" disablewebsecurity nodeintegration allowpopup style="width:100%; position: fixed"></webview>
+<!--<div id="cover" style="width: 100%; height: 100%;" >-->
+    <!--<span style="color: black; font-size: 1000%; position: absolute; top: 50%; left: 50%; transform: translate(-48%,-48%); opacity: 0.2">观影从未如此简单</span>-->
+    <!--<span style="color: white; font-size: 1000%; position: absolute; top: 50%; left: 50%; transform: translate(-50%,-50%);">观影从未如此简单</span>-->
+    <!--<span style="color: white;">鼠标移至左上角将打开工具栏</span>-->
+<!--</div>-->
+<webview id="controlwebview" disablewebsecurity nodeintegration allowpopup style="height:100%; width:100%; position: fixed"></webview>
 <script src="index.js"></script>
 </body>
 </html>
