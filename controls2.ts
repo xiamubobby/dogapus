@@ -118,11 +118,11 @@ ipcRenderer.on(Signals[Signals.NavigateToSite], function (event, site) {
             break;
         case siteDomains[siteEnum.TUDOU]:
             backgroundColor = "#ffffff";
-            fontColor = "red";
+            fontColor = "rgb(255, 102, 0)";
             break;
         case siteDomains[siteEnum.IQIYI]:
             backgroundColor = "#222";
-            fontColor = "LimeGreen";
+            fontColor = "#699f00";
             break;
         case siteDomains[siteEnum.SOHU]:
             backgroundColor = "#f5f5f5";
