@@ -1,4 +1,5 @@
-@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300);
+/*@import url(http://fonts.googleapis.com/css?family=Source+Sans+Pro:200,300);*/
+@import url(http://fonts.gmirror.org/css?family=Lato:400,700|Roboto+Slab:400,700|Inconsolata:400,700);
 * {
     box-sizing: border-box;
     margin: 0;
@@ -11,7 +12,8 @@ body {
     font-weight: 300;
     background: #000;
     width: 100%;
-    height:100%
+    height:100%;
+    transition: background 0.7s;
 }
 body ::-webkit-input-placeholder {
     /* WebKit browsers */
@@ -266,4 +268,9 @@ form button:hover {
 #categorypanel li {
     display: inline;
     margin: 25px;
+}
+
+#categorypanel a {
+    font-family: "Roboto Slab", sans-serif;
+    font-weight: bolder;
 }

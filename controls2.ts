@@ -1,12 +1,6 @@
 /**
  * Created by natsuki on 16/5/23.
  */
-// document.querySelector("#login-button").addEventListener("click", function (event: Event) {
-//     event.preventDefault();
-//     document.querySelector("form");
-//     let wrapper = document.querySelector(".wrapper");
-//     wrapper.setAttribute("class", wrapper.getAttribute("class") + "form-success");
-// });
 
 const loginButton: HTMLButtonElement = <HTMLButtonElement> document.getElementById("login-button");
 const loginForm: HTMLFormElement = <HTMLFormElement> document.querySelector(".form");
@@ -20,6 +14,7 @@ const ipcRenderer = electron.ipcRenderer;
 
 const loginPanel: HTMLDivElement = <HTMLDivElement> document.getElementById("loginpanel");
 const categoryPanel: HTMLDivElement = <HTMLDivElement> document.getElementById("categorypanel");
+const siteStrs = document.querySelectorAll("#categorypanel a");
 loginPanel.fade = function () {
     let cb = function (event: TransitionEvent) {
         if (event.propertyName == "opacity") {
@@ -99,4 +94,13 @@ document.getElementById("letv-button").addEventListener("click", function(){
         lokidb.updateSiteInfo("letv", body.account, body.password);
         ipcRenderer.sendToHost("main-webview-loadurl", "http://www.le.com/");
     });
+});
+
+ipcRenderer.on(Signals[Signals.SetControlBackground], function (event, color) {
+    document.body.style.background = color;
+    for (const idx in siteStrs) {
+        if (siteStrs.hasOwnProperty(idx)) {
+            siteStrs[idx].style.color = ((color == "#222") ? "LimeGreen" : "red");
+        }
+    }
 });

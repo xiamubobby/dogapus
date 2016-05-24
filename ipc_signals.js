@@ -4,6 +4,7 @@
  */
 (function (Signals) {
     Signals[Signals["LoginSuccess"] = 0] = "LoginSuccess";
+    Signals[Signals["SetControlBackground"] = 1] = "SetControlBackground";
 })(exports.Signals || (exports.Signals = {}));
 var Signals = exports.Signals;
 //# sourceMappingURL=ipc_signals.js.map

@@ -57,6 +57,7 @@ app.on('ready', function() {
     mainWindow = new BrowserWindow({
         width: 1440,
         height: 960,
+        icon: `${__dirname}dogapus.png`,
         webSecurity: false
     });
 

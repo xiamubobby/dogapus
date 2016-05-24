@@ -7,10 +7,11 @@ import theApp = require("./the_app")
 import electron  = require("electron")
 const ipcRenderer = electron.ipcRenderer;
 import ipcSignals = require("./ipc_signals")
+const siteDomains = theApp.SiteDomains;
+const siteEnum = theApp.StreamSiteEnum;
 const Signals = ipcSignals.Signals;
 
 let mainWebView: WebViewElement = <WebViewElement> document.getElementById("mainwebview");
-// let cover: HTMLDivElement = <HTMLDivElement> document.getElementById("cover");
 let controls: WebViewElement = <WebViewElement> document.getElementById("controlwebview");
 controls.shrink = function () {
     this.style.height = "60px";
@@ -31,7 +32,6 @@ controls.expand = function (callback: Function = function () {}) {
 };
 controls.addEventListener("ipc-message", function (event) {
    if(event.channel == Signals[Signals.LoginSuccess]) {
-       // controls.shrink();
    }
 });
 
@@ -40,22 +40,26 @@ mainWebView.setAttribute("preload", `file://${__dirname}/lowdbinjection.js`);
 
 mainWebView.addEventListener("new-window", function(e){ mainWebView.loadURL(e.url) });
 mainWebView.addEventListener("console-message", function (event) {
-    // console.log(event.target);
-    // console.log(event.message);
 });
 mainWebView.addEventListener("did-finish-load", function (event) {
-    // cover.style.display = "none";
+    console.log(mainWebView.getURL())
+    if (mainWebView.getURL().indexOf(siteDomains[siteEnum.YOUKU]) >= 0) {
+        controls.send(Signals[Signals.SetControlBackground], "#ffffff");
+    } else if (mainWebView.getURL().indexOf(siteDomains[siteEnum.TUDOU]) >= 0) {
+        controls.send(Signals[Signals.SetControlBackground], "#ffffff");
+    } else if (mainWebView.getURL().indexOf(siteDomains[siteEnum.IQIYI]) >= 0) {
+        controls.send(Signals[Signals.SetControlBackground], "#222");
+    } else if (mainWebView.getURL().indexOf(siteDomains[siteEnum.SOHU]) >= 0) {
+        controls.send(Signals[Signals.SetControlBackground], "#f5f5f5");
+    } else if (mainWebView.getURL().indexOf(siteDomains[siteEnum.TENCENT]) >= 0) {
+        controls.send(Signals[Signals.SetControlBackground], "#ffffff");
+    } else if (mainWebView.getURL().indexOf(siteDomains[siteEnum.LETV]) >= 0) {
+        controls.send(Signals[Signals.SetControlBackground], "#f8f8f8");
+    }
     controls.shrink();
     pageMod.modWebContent((<WebViewElement> event.target).getWebContents());
 });
 
-// cover.addEventListener("transitionend", function (e) {
-//     if (cover.style.opacity == "0") {
-//         cover.style.display = "none";
-//     }
-// });
-
-//controls.style.transform = "translate(0px, -100%)";
 controls.expand();
 
 controls.addEventListener("ipc-message", function (e) {
@@ -70,8 +74,6 @@ controls.addEventListener("ipc-message", function (e) {
                     }
                 }
             });
-            // cover.style.display = "inline";
-            // cover.style.opacity = "1.0";
     }
 });
 
@@ -82,16 +84,4 @@ controls.addEventListener("ipc-message", function (e) {
         }
     });
 });
-
-// document.addEventListener("mousemove", function(e){
-//     let y = e.clientY;
-//     let ratio = y / window.innerHeight;
-//     if (ratio <= 0.1 && e.clientX / window.innerWidth <= 0.2) {
-//         controls.style.transform = "translate(0px, 0px)";
-//     }
-// });
-
-// controls.addEventListener("mouseleave", function(e){
-//     controls.style.transform = "translate(0px, -100%)";
-// });
 
