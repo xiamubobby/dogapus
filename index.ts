@@ -41,20 +41,39 @@ mainWebView.setAttribute("preload", `file://${__dirname}/lowdbinjection.js`);
 mainWebView.addEventListener("new-window", function(e){ mainWebView.loadURL(e.url) });
 mainWebView.addEventListener("console-message", function (event) {
 });
-mainWebView.addEventListener("did-finish-load", function (event) {
+// mainWebView.addEventListener("dom-ready", function (event) {
+//     console.log(mainWebView.getURL())
+//     if (mainWebView.getURL().indexOf(siteDomains[siteEnum.YOUKU]) >= 0) {
+//         controls.send(Signals[Signals.SetControlBackground], "#ffffff");
+//     } else if (mainWebView.getURL().indexOf(siteDomains[siteEnum.TUDOU]) >= 0) {
+//         controls.send(Signals[Signals.SetControlBackground], "#ffffff");
+//     } else if (mainWebView.getURL().indexOf(siteDomains[siteEnum.IQIYI]) >= 0) {
+//         controls.send(Signals[Signals.SetControlBackground], "#222");
+//     } else if (mainWebView.getURL().indexOf(siteDomains[siteEnum.SOHU]) >= 0) {
+//         controls.send(Signals[Signals.SetControlBackground], "#f5f5f5");
+//     } else if (mainWebView.getURL().indexOf(siteDomains[siteEnum.TENCENT]) >= 0) {
+//         controls.send(Signals[Signals.SetControlBackground], "#ffffff");
+//     } else if (mainWebView.getURL().indexOf(siteDomains[siteEnum.LETV]) >= 0) {
+//         controls.send(Signals[Signals.SetControlBackground], "#f8f8f8");
+//     }
+//     controls.shrink();
+//     pageMod.modWebContent((<WebViewElement> event.target).getWebContents());
+// });
+
+mainWebView.addEventListener("dom-ready", function (event) {
     console.log(mainWebView.getURL())
     if (mainWebView.getURL().indexOf(siteDomains[siteEnum.YOUKU]) >= 0) {
-        controls.send(Signals[Signals.SetControlBackground], "#ffffff");
+        controls.send(Signals[Signals.NavigateToSite], siteDomains[siteEnum.YOUKU]);
     } else if (mainWebView.getURL().indexOf(siteDomains[siteEnum.TUDOU]) >= 0) {
-        controls.send(Signals[Signals.SetControlBackground], "#ffffff");
+        controls.send(Signals[Signals.NavigateToSite], siteDomains[siteEnum.TUDOU]);
     } else if (mainWebView.getURL().indexOf(siteDomains[siteEnum.IQIYI]) >= 0) {
-        controls.send(Signals[Signals.SetControlBackground], "#222");
+        controls.send(Signals[Signals.NavigateToSite], siteDomains[siteEnum.IQIYI]);
     } else if (mainWebView.getURL().indexOf(siteDomains[siteEnum.SOHU]) >= 0) {
-        controls.send(Signals[Signals.SetControlBackground], "#f5f5f5");
+        controls.send(Signals[Signals.NavigateToSite], siteDomains[siteEnum.SOHU]);
     } else if (mainWebView.getURL().indexOf(siteDomains[siteEnum.TENCENT]) >= 0) {
-        controls.send(Signals[Signals.SetControlBackground], "#ffffff");
+        controls.send(Signals[Signals.NavigateToSite], siteDomains[siteEnum.TENCENT]);
     } else if (mainWebView.getURL().indexOf(siteDomains[siteEnum.LETV]) >= 0) {
-        controls.send(Signals[Signals.SetControlBackground], "#f8f8f8");
+        controls.send(Signals[Signals.NavigateToSite], siteDomains[siteEnum.LETV]);
     }
     controls.shrink();
     pageMod.modWebContent((<WebViewElement> event.target).getWebContents());

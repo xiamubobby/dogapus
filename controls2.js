@@ -9,6 +9,9 @@ const electron = require("electron");
 const ipcSignals = require("./ipc_signals");
 const Signals = ipcSignals.Signals;
 const lokidb = require("./lokis/loki_manager");
+const theApp = require("./the_app");
+const siteDomains = theApp.SiteDomains;
+const siteEnum = theApp.StreamSiteEnum;
 const ipcRenderer = electron.ipcRenderer;
 const loginPanel = document.getElementById("loginpanel");
 const categoryPanel = document.getElementById("categorypanel");
@@ -35,7 +38,7 @@ loginButton.addEventListener("click", function (event) {
     login();
 });
 loginForm.addEventListener("keydown", function (event) {
-    if (event.key == "enter") {
+    if (event.keyCode == 13) {
         console.log("enter pressed");
         login();
     }
@@ -86,11 +89,47 @@ document.getElementById("letv-button").addEventListener("click", function () {
         ipcRenderer.sendToHost("main-webview-loadurl", "http://www.le.com/");
     });
 });
-ipcRenderer.on(Signals[Signals.SetControlBackground], function (event, color) {
-    document.body.style.background = color;
+// ipcRenderer.on(Signals[Signals.SetControlBackground], function (event, color) {
+//     document.body.style.background = color;
+//     for (const idx in siteStrs) {
+//         if (siteStrs.hasOwnProperty(idx)) {
+//             siteStrs[idx].style.color = ((color == "#222") ? "LimeGreen" : "red");
+//         }
+//     }
+// });
+ipcRenderer.on(Signals[Signals.NavigateToSite], function (event, site) {
+    let backgroundColor = "";
+    let fontColor = "";
+    switch (site) {
+        case siteDomains[siteEnum.YOUKU]:
+            backgroundColor = "#ffffff";
+            fontColor = "red";
+            break;
+        case siteDomains[siteEnum.TUDOU]:
+            backgroundColor = "#ffffff";
+            fontColor = "red";
+            break;
+        case siteDomains[siteEnum.IQIYI]:
+            backgroundColor = "#222";
+            fontColor = "LimeGreen";
+            break;
+        case siteDomains[siteEnum.SOHU]:
+            backgroundColor = "#f5f5f5";
+            fontColor = "red";
+            break;
+        case siteDomains[siteEnum.TENCENT]:
+            backgroundColor = "#ffffff";
+            fontColor = "red";
+            break;
+        case siteDomains[siteEnum.LETV]:
+            backgroundColor = "#f8f8f8";
+            fontColor = "red";
+            break;
+    }
+    document.body.style.background = backgroundColor;
     for (const idx in siteStrs) {
         if (siteStrs.hasOwnProperty(idx)) {
-            siteStrs[idx].style.color = ((color == "#222") ? "LimeGreen" : "red");
+            siteStrs[idx].style.color = fontColor;
         }
     }
 });
