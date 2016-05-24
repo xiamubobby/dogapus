@@ -15,12 +15,14 @@ let controls: WebViewElement = <WebViewElement> document.getElementById("control
 controls.shrink = function () {
     this.style.height = "60px";
 };
-controls.expand = function (callback?: Function = function () {}) {
+controls.expand = function (callback: Function = function () {}) {
     let cb = function (event) {
-        callback();
-        this.removeEventListener("transitionend", cb);
+        if (controls.style.height == "100%") {
+            callback();
+            this.removeEventListener("transitionend", cb);
+        }
     };
-    this.addEventListener("transitioned", cb)
+    this.addEventListener("transitionend", cb);
     if (this.style.height == "100%") {
         callback();
     } else {

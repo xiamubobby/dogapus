@@ -16,10 +16,12 @@ controls.shrink = function () {
 };
 controls.expand = function (callback = function () { }) {
     let cb = function (event) {
-        callback();
-        this.removeEventListener("transitionend", cb);
+        if (controls.style.height == "100%") {
+            callback();
+            this.removeEventListener("transitionend", cb);
+        }
     };
-    this.addEventListener("transitioned", cb);
+    this.addEventListener("transitionend", cb);
     if (this.style.height == "100%") {
         callback();
     }

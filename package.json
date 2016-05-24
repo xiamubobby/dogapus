@@ -4,15 +4,7 @@
   "main": "main.js",
   "dependencies": {
     "lokijs": "^1.3.16",
-    "lowdb": "^0.12.5",
     "request": "^2.72.0"
-  },
-  "devDependencies": {
-    "asar": "^0.11.0",
-    "fs-extra": "^0.30.0",
-    "glob": "^7.0.3",
-    "uglify-js": "^2.6.2",
-    "unzip": "^0.1.11"
   },
   "scripts": {
     "screw": "node buildscripts/screw.js",
