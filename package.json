@@ -6,11 +6,11 @@
     "lokijs": "^1.3.16",
     "request": "^2.72.0"
   },
+  "devDependencies": {
+    "shelljs": "^0.7.0",
+    "adm-zip": "^0.4.7"
+  },
   "scripts": {
-    "screw": "node buildscripts/screw.js",
-    "driver": "node buildscripts/driver.js",
-    "box": "node buildscripts/box.js",
-    "daf": "node buildscripts/daf.js",
-    "build": "node buildscripts/screw.js ; node buildscripts/driver.js ; node buildscripts/box.js ; node buildscripts/daf.js"
+    "build": "node buildscripts/build.js"
   }
 }

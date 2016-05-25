@@ -1,8 +1,10 @@
 {
   "ambientDependencies": {
+    "adm-zip": "registry:dt/adm-zip#0.0.0+20160317120654",
     "electron": "registry:env/electron#0.37.6+20160416165306",
     "lokijs": "registry:dt/lokijs#0.0.0+20160316155526",
     "node": "registry:dt/node#4.0.0+20160423143914",
-    "request": "registry:dt/request#0.0.0+20160316155526"
+    "request": "registry:dt/request#0.0.0+20160316155526",
+    "shelljs": "registry:dt/shelljs#0.0.0+20160316155526"
   }
 }
