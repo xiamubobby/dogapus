@@ -1,9 +1,6 @@
-import WebViewElement = Electron.WebViewElement;
-import WebViewElement = Electron.WebViewElement;
 /**
  * Created by natsuki on 16/4/27.
  */
-///<reference path="../../lowdbinjection.js" />
 console.log("youku-mod loading")
 var mutationObserver = new MutationObserver(function (mutations) {
     for (const mutation of mutations) {

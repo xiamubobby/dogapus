@@ -36,7 +36,7 @@ controls.addEventListener("ipc-message", function (event) {
 });
 
 controls.setAttribute("src", `file://${__dirname}/controls2.html`);
-mainWebView.setAttribute("preload", `file://${__dirname}/lowdbinjection.js`);
+mainWebView.setAttribute("preload", `file://${__dirname}/indexinjections.js`);
 
 mainWebView.addEventListener("new-window", function(e){ mainWebView.loadURL(e.url) });
 mainWebView.addEventListener("console-message", function (event) {
