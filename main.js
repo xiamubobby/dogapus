@@ -13,6 +13,7 @@ let flashPath = "";
 switch (process.platform) {
     case "linux":
         flashPath = `${__dirname.split("/").slice(0, -1).join("/")}/PepperFlash/linux/PepperFlash/libpepflashplayer.so`;
+        flashPath = `${__dirname}/PepperFlash/linux/PepperFlash/libpepflashplayer.so`;
         app.commandLine.appendSwitch('ppapi-flash-path', flashPath);
         break;
     case "darwin":
@@ -23,6 +24,7 @@ switch (process.platform) {
         break;
     default:
         flashPath = `${__dirname.split("\\").slice(0, -1).join("\\")}\\PepperFlash\\win32\\PepperFlash\\pepflashplayer.dll`;
+        flashPath = `${__dirname}\\PepperFlash\\win32\\PepperFlash\\pepflashplayer.dll`;
         app.commandLine.appendSwitch('ppapi-flash-path', flashPath);
         break;
 }
