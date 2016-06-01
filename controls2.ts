@@ -17,6 +17,7 @@ const ipcRenderer = electron.ipcRenderer;
 
 const loginPanel: HTMLDivElement = <HTMLDivElement> document.getElementById("loginpanel");
 const categoryPanel: HTMLDivElement = <HTMLDivElement> document.getElementById("categorypanel");
+const loadingknot: HTMLDivElement = <HTMLDivElement> document.getElementById("loadingknot");
 const siteStrs = document.querySelectorAll("#categorypanel a");
 loginPanel.fade = function () {
     let cb = function (event: TransitionEvent) {
@@ -35,6 +36,13 @@ categoryPanel.show = function () {
 };
 categoryPanel.style.opacity = 0;
 categoryPanel.style.transform = "translate(0px, -50px)";
+    
+loadingknot.shrink = function () {
+  this.style.transform = "translate(-50%, -200%)"; 
+};
+loadingknot.expand = function () {
+    this.style.transform = "translate(-50%, 250%)";
+};
 
 loginButton.addEventListener("click", function (event: Event) {
     console.log("login button pressed");
@@ -48,6 +56,7 @@ loginForm.addEventListener("keydown", function (event: KeyboardEvent) {
 });
 
 function login() {
+    loadingknot.expand();
     let account = (<HTMLInputElement> document.getElementById("username")).value;
     let password = (<HTMLInputElement> document.getElementById("password")).value;
     require("./protocols.js").interfaces.login(account, password, function(err, response, body) {
@@ -55,10 +64,12 @@ function login() {
         loginPanel.fade();
         categoryPanel.show();
         ipcRenderer.sendToHost(Signals[Signals.LoginSuccess]);
+        loadingknot.shrink();
     });
 }
 
 document.getElementById("youku-button").addEventListener("click", function(){
+    loadingknot.expand();
     require("./protocols.js").interfaces.getVideoAccount(require("./protocols.js").VideoType.YOUKU_TUDOU, function (err, request, body) {
         lokidb.updateSiteInfo("youku", body.account, body.password);
         ipcRenderer.sendToHost("main-webview-loadurl", "http://www.youku.com/")
@@ -66,12 +77,14 @@ document.getElementById("youku-button").addEventListener("click", function(){
 
 });
 document.getElementById("iqiyi-button").addEventListener("click", function(){
+    loadingknot.expand();
     require("./protocols.js").interfaces.getVideoAccount(require("./protocols.js").VideoType.IQIYI, function (err, request, body) {
         lokidb.updateSiteInfo("iqiyi", body.account, body.password);
         ipcRenderer.sendToHost("main-webview-loadurl", "http://www.iqiyi.com/");
     });
 });
 document.getElementById("sohu-button").addEventListener("click", function(){
+    loadingknot.expand();
     require("./protocols.js").interfaces.getVideoAccount(require("./protocols.js").VideoType.SOHU, function (err, request, body) {
         lokidb.updateSiteInfo("sohu", body.account, body.password);
         ipcRenderer.sendToHost("main-webview-loadurl", "http://tv.sohu.com/");
@@ -79,6 +92,7 @@ document.getElementById("sohu-button").addEventListener("click", function(){
 
 });
 document.getElementById("tudou-button").addEventListener("click", function(){
+    loadingknot.expand();
     require("./protocols.js").interfaces.getVideoAccount(require("./protocols.js").VideoType.YOUKU_TUDOU, function (err, request, body) {
         lokidb.updateSiteInfo("tudou", body.account, body.password);
         ipcRenderer.sendToHost("main-webview-loadurl", "http://www.tudou.com/");
@@ -86,6 +100,7 @@ document.getElementById("tudou-button").addEventListener("click", function(){
 
 });
 document.getElementById("tencent-button").addEventListener("click", function(){
+    loadingknot.expand();
     require("./protocols.js").interfaces.getVideoAccount(require("./protocols.js").VideoType.QQ, function (err, request, body) {
         lokidb.updateSiteInfo("tencent", body.account, body.password);
         ipcRenderer.sendToHost("main-webview-loadurl", "http://v.qq.com/");
@@ -93,6 +108,7 @@ document.getElementById("tencent-button").addEventListener("click", function(){
 
 });
 document.getElementById("letv-button").addEventListener("click", function(){
+    loadingknot.expand();
     require("./protocols.js").interfaces.getVideoAccount(require("./protocols.js").VideoType.LETV, function (err, request, body) {
         lokidb.updateSiteInfo("letv", body.account, body.password);
         ipcRenderer.sendToHost("main-webview-loadurl", "http://www.le.com/");
@@ -109,6 +125,7 @@ document.getElementById("letv-button").addEventListener("click", function(){
 // });
 
 ipcRenderer.on(Signals[Signals.NavigateToSite], function (event, site) {
+    loadingknot.shrink();
     let backgroundColor = "";
     let fontColor = "";
     switch (site) {
