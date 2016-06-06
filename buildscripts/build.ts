@@ -31,13 +31,13 @@ for (const target of [Targets.osx, Targets.win32, Targets.linux]) {
     let appDir;
     switch (target) {
         case Targets.osx:
-            appDir = `${__dirname}/../out/osx/Electron.app/Contents/Resources/app/`;
+            appDir = `${__dirname}/../out/osx/Electron.app/Contents/Resources/app`;
             break;
         case Targets.win32:
-            appDir = `${__dirname}/../out/win32/resources/app/`;
+            appDir = `${__dirname}/../out/win32/resources/app`;
             break;
         case Targets.linux:
-            appDir = `${__dirname}/../out/linux/resources/app/`;
+            appDir = `${__dirname}/../out/linux/resources/app`;
     }
     shell.mkdir('-p', appDir);
     
@@ -59,5 +59,10 @@ for (const target of [Targets.osx, Targets.win32, Targets.linux]) {
     }).forEach(function (value, index) {
         shell.rm("-rf", `${appDir}/PepperFlash/${value}`)
     });
+    //.split("/").slice(0, -1).join("/")
+    console.log(appDir)
+    shell.mkdir(`${appDir.split("/").slice(0, -1).join("/")}/PepperFlash`);
+    shell.cp("-r", `${appDir}/PepperFlash/*`, `${appDir.split("/").slice(0, -1).join("/")}/PepperFlash`);
+    shell.rm("-rf", `${appDir}/PepperFlash`);
 }
 

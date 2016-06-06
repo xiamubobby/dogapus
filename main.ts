@@ -13,21 +13,21 @@ let flashPath = "";
 switch(process.platform) {
     case "linux":
         flashPath = `${__dirname.split("/").slice(0, -1).join("/")}/PepperFlash/linux/PepperFlash/libpepflashplayer.so`;
-        flashPath = `${__dirname}/PepperFlash/linux/PepperFlash/libpepflashplayer.so`;
+        // flashPath = `${__dirname}/PepperFlash/linux/PepperFlash/libpepflashplayer.so`;
         app.commandLine.appendSwitch('ppapi-flash-path', flashPath);
         break;
     case "darwin":
         flashPath = `${__dirname.split("/").slice(0, -1).join("/")}/PepperFlash/osx/PepperFlashPlayer.plugin`;
-        flashPath = `${__dirname}/PepperFlash/osx/PepperFlashPlayer.plugin`;
-        console.log(flashPath);
+        // flashPath = `${__dirname}/PepperFlash/osx/PepperFlashPlayer.plugin`;
         app.commandLine.appendSwitch('ppapi-flash-path', flashPath);
         break;
     default:
         flashPath = `${__dirname.split("\\").slice(0, -1).join("\\")}\\PepperFlash\\win32\\PepperFlash\\pepflashplayer.dll`;
-        flashPath = `${__dirname}\\PepperFlash\\win32\\PepperFlash\\pepflashplayer.dll`;
+        // flashPath = `${__dirname}\\PepperFlash\\win32\\PepperFlash\\pepflashplayer.dll`;
         app.commandLine.appendSwitch('ppapi-flash-path', flashPath);
         break;
 }
+console.log(flashPath);
 
 ipcMain.on("get-app-path", function (e) { e.returnValue = app.getAppPath() });
 

@@ -11,6 +11,7 @@
     "decompress-zip": "^0.3.0"
   },
   "scripts": {
-    "build": "node buildscripts/build.js"
+    "build": "node buildscripts/build.js",
+    "clean": "node buildscripts/clean.js"
   }
 }
