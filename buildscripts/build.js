@@ -5,6 +5,7 @@
 const shell = require("shelljs");
 const decompresszip = require("decompress-zip");
 const fs = require("fs");
+const asar = require("asar");
 var Targets;
 (function (Targets) {
     Targets[Targets["osx"] = 0] = "osx";
@@ -38,7 +39,7 @@ for (const target of [Targets.osx, Targets.win32, Targets.linux]) {
     }
     shell.mkdir('-p', appDir);
     const toBeCopieds = fs.readdirSync("./");
-    for (const outer of [".git", "buildscripts", "electron_prebuilt", "out", "typings", ".gitignore", "tsconfig.json", "typings.json", ".idea"]) {
+    for (const outer of [".git", "buildscripts", "electron_prebuilt", "out", "typings", ".gitignore", "tsconfig.json", "typings.json", ".idea", "node_modules"]) {
         if (toBeCopieds.indexOf(outer) > -1) {
             toBeCopieds.splice(toBeCopieds.indexOf(outer), 1);
         }
@@ -48,16 +49,47 @@ for (const target of [Targets.osx, Targets.win32, Targets.linux]) {
     })) {
         shell.cp('-r', `${__dirname}/../${name}`, appDir);
     }
+    const pkgjson = require(`${__dirname}/../package.json`);
+    const dependencies = pkgjson.dependencies;
+    if (dependencies) {
+        shell.mkdir(`${appDir}/node_modules`);
+    }
+    for (const devModName in dependencies) {
+        if (dependencies.hasOwnProperty(devModName)) {
+            console.log(`${appDir}/node_modules/${devModName}`);
+            shell.cp("-r", `${__dirname}/../node_modules/${devModName}`, `${appDir}/node_modules/${devModName}`);
+        }
+    }
+    // shell.rm("-rf", `${appDir}/node_modules/.bin`);
     const flPlugins = fs.readdirSync(`${appDir}/PepperFlash`);
     flPlugins.filter(function (value, index, array) {
         return !(value == Targets[target]);
     }).forEach(function (value, index) {
         shell.rm("-rf", `${appDir}/PepperFlash/${value}`);
     });
-    //.split("/").slice(0, -1).join("/")
-    console.log(appDir);
     shell.mkdir(`${appDir.split("/").slice(0, -1).join("/")}/PepperFlash`);
     shell.cp("-r", `${appDir}/PepperFlash/*`, `${appDir.split("/").slice(0, -1).join("/")}/PepperFlash`);
     shell.rm("-rf", `${appDir}/PepperFlash`);
+    // glob(`${appDir}/**/*.js`, {}, function (err, files) {
+    //     if(!err) {
+    //         for (const file of files) {
+    //             if (!file.includes("node_modules")) {
+    //                 yuicompressor.compress(file, {
+    //                     charset: "utf-8",
+    //                     type: "js",
+    //                     outfile: file
+    //                 }, function (err, data, extra) {
+    //                     if (err) {
+    //                         console.log(`err: ${file}`)
+    //                     }
+    //                 })
+    //             }
+    //         }
+    //     }
+    // });
+    asar.createPackage(appDir, `${appDir}.asar`, function () {
+        console.log("asar done.");
+        shell.rm("-rf", appDir);
+    });
 }
 //# sourceMappingURL=build.js.map
