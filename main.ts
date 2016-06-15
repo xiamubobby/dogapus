@@ -4,10 +4,11 @@
 import electron = require("electron")
 const app = electron.app;
 const ipcMain = electron.ipcMain;
-const BrowserWindow = electron.BrowserWindow;
 const Menu = electron.Menu;
 import theApp = require("./the_app");
 import "./lokis/loki_manager";
+import ipcSignals = require("ipc_signals");
+const BrowserWindow = electron.BrowserWindow;
 
 let flashPath = "";
 switch(process.platform) {

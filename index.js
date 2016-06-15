@@ -39,46 +39,32 @@ mainWebView.setAttribute("preload", `file://${__dirname}/indexinjections.js`);
 mainWebView.addEventListener("new-window", function (e) { mainWebView.loadURL(e.url); });
 mainWebView.addEventListener("console-message", function (event) {
 });
-// mainWebView.addEventListener("dom-ready", function (event) {
-//     console.log(mainWebView.getURL())
-//     if (mainWebView.getURL().indexOf(siteDomains[siteEnum.YOUKU]) >= 0) {
-//         controls.send(Signals[Signals.SetControlBackground], "#ffffff");
-//     } else if (mainWebView.getURL().indexOf(siteDomains[siteEnum.TUDOU]) >= 0) {
-//         controls.send(Signals[Signals.SetControlBackground], "#ffffff");
-//     } else if (mainWebView.getURL().indexOf(siteDomains[siteEnum.IQIYI]) >= 0) {
-//         controls.send(Signals[Signals.SetControlBackground], "#222");
-//     } else if (mainWebView.getURL().indexOf(siteDomains[siteEnum.SOHU]) >= 0) {
-//         controls.send(Signals[Signals.SetControlBackground], "#f5f5f5");
-//     } else if (mainWebView.getURL().indexOf(siteDomains[siteEnum.TENCENT]) >= 0) {
-//         controls.send(Signals[Signals.SetControlBackground], "#ffffff");
-//     } else if (mainWebView.getURL().indexOf(siteDomains[siteEnum.LETV]) >= 0) {
-//         controls.send(Signals[Signals.SetControlBackground], "#f8f8f8");
-//     }
-//     controls.shrink();
-//     pageMod.modWebContent((<WebViewElement> event.target).getWebContents());
-// });
-mainWebView.addEventListener("dom-ready", function (event) {
+ipcRenderer.on(ipcSignals.Signals.AlertOnRenderer, (event, message) => {
+    alert(message);
+});
+mainWebView.addEventListener("dom-ready" /*"dom-ready"*/, function (event) {
     console.log(mainWebView.getURL());
-    if (mainWebView.getURL().indexOf(siteDomains[siteEnum.YOUKU]) >= 0) {
-        controls.send(Signals[Signals.NavigateToSite], siteDomains[siteEnum.YOUKU]);
-    }
-    else if (mainWebView.getURL().indexOf(siteDomains[siteEnum.TUDOU]) >= 0) {
-        controls.send(Signals[Signals.NavigateToSite], siteDomains[siteEnum.TUDOU]);
-    }
-    else if (mainWebView.getURL().indexOf(siteDomains[siteEnum.IQIYI]) >= 0) {
-        controls.send(Signals[Signals.NavigateToSite], siteDomains[siteEnum.IQIYI]);
-    }
-    else if (mainWebView.getURL().indexOf(siteDomains[siteEnum.SOHU]) >= 0) {
-        controls.send(Signals[Signals.NavigateToSite], siteDomains[siteEnum.SOHU]);
-    }
-    else if (mainWebView.getURL().indexOf(siteDomains[siteEnum.TENCENT]) >= 0) {
-        controls.send(Signals[Signals.NavigateToSite], siteDomains[siteEnum.TENCENT]);
-    }
-    else if (mainWebView.getURL().indexOf(siteDomains[siteEnum.LETV]) >= 0) {
-        controls.send(Signals[Signals.NavigateToSite], siteDomains[siteEnum.LETV]);
-    }
-    controls.shrink();
-    pageMod.modWebContent(event.target.getWebContents());
+    pageMod.modWebContent(event.target.getWebContents(), () => {
+        if (mainWebView.getURL().indexOf(siteDomains[siteEnum.YOUKU]) >= 0) {
+            controls.send(Signals[Signals.NavigateToSite], siteDomains[siteEnum.YOUKU]);
+        }
+        else if (mainWebView.getURL().indexOf(siteDomains[siteEnum.TUDOU]) >= 0) {
+            controls.send(Signals[Signals.NavigateToSite], siteDomains[siteEnum.TUDOU]);
+        }
+        else if (mainWebView.getURL().indexOf(siteDomains[siteEnum.IQIYI]) >= 0) {
+            controls.send(Signals[Signals.NavigateToSite], siteDomains[siteEnum.IQIYI]);
+        }
+        else if (mainWebView.getURL().indexOf(siteDomains[siteEnum.SOHU]) >= 0) {
+            controls.send(Signals[Signals.NavigateToSite], siteDomains[siteEnum.SOHU]);
+        }
+        else if (mainWebView.getURL().indexOf(siteDomains[siteEnum.TENCENT]) >= 0) {
+            controls.send(Signals[Signals.NavigateToSite], siteDomains[siteEnum.TENCENT]);
+        }
+        else if (mainWebView.getURL().indexOf(siteDomains[siteEnum.LETV]) >= 0) {
+            controls.send(Signals[Signals.NavigateToSite], siteDomains[siteEnum.LETV]);
+        }
+        controls.shrink();
+    });
 });
 controls.expand();
 controls.addEventListener("ipc-message", function (e) {
@@ -97,7 +83,7 @@ controls.addEventListener("ipc-message", function (e) {
     }
 });
 [mainWebView, controls].forEach(function (webView) {
-    webView.addEventListener("did-finish-load", function (event) {
+    webView.addEventListener("load-commit" /*"dom-ready"*/, function (event) {
         if (theApp.isDebug()) {
             event.target.getWebContents().openDevTools();
         }

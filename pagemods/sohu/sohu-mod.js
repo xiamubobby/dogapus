@@ -9,7 +9,9 @@ var mutationObserver = new MutationObserver(function (mutations) {
                 const node = mutation.addedNodes[i];
                 if (node.nodeName == "DIV") {
                     if (node.classList.contains("globallogin")) {
+                        console.log("sohu inned");
                         const info = loki.getSiteInfo("sohu");
+                        console.log(info);
                         const email = node.querySelector("input[name='email']");
                         email.placeholder = "";
                         email.value = info.account; //db("video").find({site: "sohu"}).account//"jb"

@@ -18,13 +18,20 @@ for (const site of StreamSites) {
     pageModes[siteName] = new PageMod((url)=>url.includes(SiteDomains[site]), files.filter((element)=>element.endsWith(".js")));
 }
 
-export function modWebContent(webContent: WebContents) {
+export function modWebContent(webContent: WebContents, cb) {
     for (const siteName in pageModes) {
         if (pageModes.hasOwnProperty(siteName)) {
             const pageMod = pageModes[siteName];
+            console.log(webContent.getURL())
             if (pageMod && pageMod.pattern(webContent.getURL())) {
+                console.log("im in!")
                 for (const fileName of pageMod.filenames) {
-                    webContent.executeJavaScript(fs.readFileSync(`${__dirname}/${siteName.toLowerCase()}/${fileName}`, {encoding: "utf-8"}))
+                    console.log(fileName)
+                    webContent.executeJavaScript(fs.readFileSync(`${__dirname}/${siteName.toLowerCase()}/${fileName}`, {encoding: "utf-8"}), false, function(result) {
+                        console.log(cb.toString)
+                        if (cb) cb();
+                    });
+                    console.log("executeee!")
                 }
             }
         }

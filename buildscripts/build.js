@@ -12,7 +12,7 @@ var Targets;
     Targets[Targets["win32"] = 1] = "win32";
     Targets[Targets["linux"] = 2] = "linux";
 })(Targets || (Targets = {}));
-for (const target of [Targets.osx, Targets.win32, Targets.linux]) {
+for (const target of [Targets.osx]) {
     const electronPrebuiltDir = fs.readdirSync(`${__dirname}/../electron_prebuilt/${Targets[target]}/`);
     let zip;
     for (const path of electronPrebuiltDir) {

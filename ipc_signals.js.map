@@ -1,1 +1,1 @@
-{"version":3,"file":"ipc_signals.js","sourceRoot":"","sources":["ipc_signals.ts"],"names":[],"mappings":";AAAA;;GAEG;AACH,WAAY,OAAO;IACf,qDAAY,CAAA;IAAE,yDAAc,CAAA;IAAE,qEAAoB,CAAA;AACtD,CAAC,EAFW,eAAO,KAAP,eAAO,QAElB;AAFD,IAAY,OAAO,GAAP,eAEX,CAAA"}
+{"version":3,"file":"ipc_signals.js","sourceRoot":"","sources":["ipc_signals.ts"],"names":[],"mappings":";AAAA;;GAEG;AACH,WAAY,OAAO;IACf,qDAAY,CAAA;IAAE,yDAAc,CAAA;IAAE,qEAAoB,CAAA;IAAE,2DAAe,CAAA;AACvE,CAAC,EAFW,eAAO,KAAP,eAAO,QAElB;AAFD,IAAY,OAAO,GAAP,eAEX,CAAA"}

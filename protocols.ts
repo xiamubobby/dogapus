@@ -3,8 +3,13 @@
  */
 import request = require("request");
 import lokidb = require("./lokis/loki_manager");
+import crypto = require("crypto");
+import theApp = require("./the_app");
+import electron = require("electron");
 
-const BASE_URL = "http://115.28.176.74:8080/ikan/";
+// const BASE_URL = "http://115.28.176.74:8080/ikan/";
+const BASE_URL = "http://127.0.0.1:8080/";
+
 const Methods = {
     GET: "GET",
     POST: "POST"
@@ -15,20 +20,33 @@ const VEDIO_WEBSITE = {
     QQ: 2,
     SOHU: 3,
     LETV: 4
-}
-function callback(cb) {
+};
+
+function callback(cb, onfail) {
+    function showError(text) {
+        if (theApp.isDebug()) {
+            console.log(text);
+        } else {
+            if (process.type == "renderer") {
+                alert(text);
+            }
+        }
+    }
     return function(err, response, body) {
         if (err) {
-            console.log(`net err: ${err}`);
+            showError(`net err: ${err}`);
+            onfail();
             return;
         }
         if (response.statusCode >= 400) {
-            console.log(`net err code: ${response.code}`);
+            showError(`网络错误: ${response.statusCode}`);
+            onfail();
             return;
         }
         let bodyObject = JSON.parse(body)
         if (bodyObject.success != 1) {
-            console.log(`app err code: ${bodyObject.success}`);
+            showError(`${bodyObject.message}`);
+            onfail();
             return;
         }
         cb(err, response, bodyObject);
@@ -36,20 +54,20 @@ function callback(cb) {
 }
 
 var interfaces = {
-    login: function (account, password, cb) {
+    login: function (account, password, cb, onfail) {
         return request({
             method: "POST",
             uri: `${BASE_URL}user/login`,
             form: {
                 account: account,
-                password: password
+                password: crypto.createHash("md5").update(password).digest("hex")
             },
             callback: callback(function (err, response, body) {
                 cb(err, response, body)
-            })
+            }, onfail)
         })
     },
-    getVideoAccount: function (videoType, cb) {
+    getVideoAccount: function (videoType, cb, onfail) {
         return request({
             method: "GET",
             uri: `${BASE_URL}user/getIkanAccount`,
@@ -61,7 +79,7 @@ var interfaces = {
             },
             callback: callback(function (err, response, body) {
                 cb(err, response, body)
-            })
+            }, onfail)
         })
     }
 };

@@ -5,10 +5,10 @@
 const electron = require("electron");
 const app = electron.app;
 const ipcMain = electron.ipcMain;
-const BrowserWindow = electron.BrowserWindow;
 const Menu = electron.Menu;
 const theApp = require("./the_app");
 require("./lokis/loki_manager");
+const BrowserWindow = electron.BrowserWindow;
 let flashPath = "";
 switch (process.platform) {
     case "linux":
