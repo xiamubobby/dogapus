@@ -22,15 +22,11 @@ function modWebContent(webContent, cb) {
             const pageMod = pageModes[siteName];
             console.log(webContent.getURL());
             if (pageMod && pageMod.pattern(webContent.getURL())) {
-                console.log("im in!");
                 for (const fileName of pageMod.filenames) {
-                    console.log(fileName);
                     webContent.executeJavaScript(fs.readFileSync(`${__dirname}/${siteName.toLowerCase()}/${fileName}`, { encoding: "utf-8" }), false, function (result) {
-                        console.log(cb.toString);
                         if (cb)
                             cb();
                     });
-                    console.log("executeee!");
                 }
             }
         }

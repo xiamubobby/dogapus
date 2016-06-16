@@ -8,7 +8,10 @@ const ipcMain = electron.ipcMain;
 const Menu = electron.Menu;
 const theApp = require("./the_app");
 require("./lokis/loki_manager");
+const ipcSignals = require("./ipc_signals");
 const BrowserWindow = electron.BrowserWindow;
+const protocols = require("./protocols");
+const MenuItem = electron.MenuItem;
 let flashPath = "";
 switch (process.platform) {
     case "linux":
@@ -33,9 +36,10 @@ let template = [{
         label: "Account",
         submenu: [
             {
-                label: "Login",
+                label: "Logout",
                 click: function () {
-                    app.quit();
+                    mainWindow.webContents.send(ipcSignals.Signals[ipcSignals.Signals.AlertOnRenderer], "logged out~");
+                    //app.quit()
                 }
             }
         ]
@@ -51,7 +55,23 @@ app.on('window-all-closed', function () {
 });
 app.on('ready', function () {
     const menu = Menu.buildFromTemplate(template);
-    Menu.setApplicationMenu(menu);
+    const vipButton = new MenuItem({
+        label: "做个魏阿婆",
+        click: function () {
+            protocols.interfaces.switchVip(function (err, request, body) {
+                vipButton.label = function () {
+                    if (body.nowStatus == "true") {
+                        return "做个魏阿婆!";
+                    }
+                    else {
+                        return "再也不做魏阿婆啦!";
+                    }
+                }();
+            });
+        }
+    });
+    menu.items[0].
+        Menu.setApplicationMenu(menu);
     mainWindow = new BrowserWindow({
         width: 1440,
         height: 960,

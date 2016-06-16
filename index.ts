@@ -24,13 +24,14 @@ controls.expand = function (callback: Function = function () {}) {
             this.removeEventListener("transitionend", cb);
         }
     };
-    this.addEventListener("transitionend", cb);
     if (this.style.height == "100%") {
         callback();
     } else {
+        this.addEventListener("transitionend", cb);
         this.style.height = "100%";
     }
 };
+
 controls.addEventListener("ipc-message", function (event) {
    if(event.channel == Signals[Signals.LoginSuccess]) {
    }
@@ -43,12 +44,13 @@ mainWebView.addEventListener("new-window", function(e){ mainWebView.loadURL(e.ur
 mainWebView.addEventListener("console-message", function (event) {
 });
 
-ipcRenderer.on(ipcSignals.Signals.AlertOnRenderer, (event, message) => {
-   alert(message);
+ipcRenderer.on(ipcSignals.Signals[ipcSignals.Signals.AlertOnRenderer], (event, message) => {
+    alert(message);
+    controls.expand();
+    controls.send(ipcSignals.Signals[ipcSignals.Signals.ResetControls]);
 });
 
 mainWebView.addEventListener("dom-ready"/*"dom-ready"*/, function (event) {
-    console.log(mainWebView.getURL())
     pageMod.modWebContent((<WebViewElement> event.target).getWebContents(), ()=>{
         if (mainWebView.getURL().indexOf(siteDomains[siteEnum.YOUKU]) >= 0) {
             controls.send(Signals[Signals.NavigateToSite], siteDomains[siteEnum.YOUKU]);

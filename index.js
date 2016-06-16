@@ -22,11 +22,11 @@ controls.expand = function (callback = function () { }) {
             this.removeEventListener("transitionend", cb);
         }
     };
-    this.addEventListener("transitionend", cb);
     if (this.style.height == "100%") {
         callback();
     }
     else {
+        this.addEventListener("transitionend", cb);
         this.style.height = "100%";
     }
 };
@@ -39,11 +39,12 @@ mainWebView.setAttribute("preload", `file://${__dirname}/indexinjections.js`);
 mainWebView.addEventListener("new-window", function (e) { mainWebView.loadURL(e.url); });
 mainWebView.addEventListener("console-message", function (event) {
 });
-ipcRenderer.on(ipcSignals.Signals.AlertOnRenderer, (event, message) => {
+ipcRenderer.on(ipcSignals.Signals[ipcSignals.Signals.AlertOnRenderer], (event, message) => {
     alert(message);
+    controls.expand();
+    controls.send(ipcSignals.Signals[ipcSignals.Signals.ResetControls]);
 });
 mainWebView.addEventListener("dom-ready" /*"dom-ready"*/, function (event) {
-    console.log(mainWebView.getURL());
     pageMod.modWebContent(event.target.getWebContents(), () => {
         if (mainWebView.getURL().indexOf(siteDomains[siteEnum.YOUKU]) >= 0) {
             controls.send(Signals[Signals.NavigateToSite], siteDomains[siteEnum.YOUKU]);

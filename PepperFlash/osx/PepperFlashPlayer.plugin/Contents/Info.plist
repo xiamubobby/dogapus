@@ -3,7 +3,7 @@
 <plist version="1.0">
 <dict>
 	<key>BuildMachineOSBuild</key>
-	<string>13F1096</string>
+	<string>13F1603</string>
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en_US</string>
 	<key>CFBundleExecutable</key>
@@ -19,11 +19,11 @@
 	<key>CFBundlePackageType</key>
 	<string>BRPL</string>
 	<key>CFBundleShortVersionString</key>
-	<string>21.0.0.213</string>
+	<string>21.0.0.242</string>
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleVersion</key>
-	<string>21.0.0.213</string>
+	<string>21.0.0.242</string>
 	<key>CFPlugInDynamicRegisterFunction</key>
 	<string></string>
 	<key>CFPlugInDynamicRegistration</key>

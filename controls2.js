@@ -13,6 +13,7 @@ const theApp = require("./the_app");
 const siteDomains = theApp.SiteDomains;
 const siteEnum = theApp.StreamSiteEnum;
 const ipcRenderer = electron.ipcRenderer;
+const protocols = require("./protocols");
 const loginPanel = document.getElementById("loginpanel");
 const categoryPanel = document.getElementById("categorypanel");
 const loadingknot = document.getElementById("loadingknot");
@@ -20,7 +21,9 @@ const siteStrs = document.querySelectorAll("#categorypanel a");
 loginPanel.fade = function () {
     let cb = function (event) {
         if (event.propertyName == "opacity") {
-            this.style.display = "none";
+            // this.style.display = "none";
+            this.style.pointerEvents = "none";
+            this.setAttribute("disabled", "true");
             this.removeEventListener("transitionend", cb);
         }
     };
@@ -28,9 +31,18 @@ loginPanel.fade = function () {
     this.style.opacity = 0;
     this.style.transform = "translate(0px, -50px)";
 };
+loginPanel.enter = function () {
+    this.style.pointerEvents = "auto";
+    this.style.opacity = 1;
+    this.style.transform = "translate(0px, 0px)";
+};
 categoryPanel.show = function () {
     this.style.opacity = 1;
     this.style.transform = "translate(0px, 0px)";
+};
+categoryPanel.leave = function () {
+    this.style.opacity = 0;
+    this.style.transform = "translate(0px, -50px)";
 };
 categoryPanel.style.opacity = 0;
 categoryPanel.style.transform = "translate(0px, -50px)";
@@ -54,7 +66,7 @@ function login() {
     loadingknot.expand();
     let account = document.getElementById("username").value;
     let password = document.getElementById("password").value;
-    require("./protocols.js").interfaces.login(account, password, function (err, response, body) {
+    protocols.interfaces.login(account, password, function (err, response, body) {
         loki.updateAccessToken(body.accessToken);
         loginPanel.fade();
         categoryPanel.show();
@@ -64,42 +76,42 @@ function login() {
 }
 document.getElementById("youku-button").addEventListener("click", function () {
     loadingknot.expand();
-    require("./protocols.js").interfaces.getVideoAccount(require("./protocols.js").VideoType.YOUKU_TUDOU, function (err, request, body) {
+    protocols.interfaces.getVideoAccount(protocols.VideoType.YOUKU_TUDOU, function (err, request, body) {
         lokidb.updateSiteInfo("youku", body.account, body.password);
         ipcRenderer.sendToHost("main-webview-loadurl", "http://www.youku.com/");
     }, function () { });
 });
 document.getElementById("iqiyi-button").addEventListener("click", function () {
     loadingknot.expand();
-    require("./protocols.js").interfaces.getVideoAccount(require("./protocols.js").VideoType.IQIYI, function (err, request, body) {
+    protocols.interfaces.getVideoAccount(protocols.VideoType.IQIYI, function (err, request, body) {
         lokidb.updateSiteInfo("iqiyi", body.account, body.password);
         ipcRenderer.sendToHost("main-webview-loadurl", "http://www.iqiyi.com/");
     }, function () { });
 });
 document.getElementById("sohu-button").addEventListener("click", function () {
     loadingknot.expand();
-    require("./protocols.js").interfaces.getVideoAccount(require("./protocols.js").VideoType.SOHU, function (err, request, body) {
+    protocols.interfaces.getVideoAccount(protocols.VideoType.SOHU, function (err, request, body) {
         lokidb.updateSiteInfo("sohu", body.account, body.password);
         ipcRenderer.sendToHost("main-webview-loadurl", "http://tv.sohu.com/");
     }, function () { });
 });
 document.getElementById("tudou-button").addEventListener("click", function () {
     loadingknot.expand();
-    require("./protocols.js").interfaces.getVideoAccount(require("./protocols.js").VideoType.YOUKU_TUDOU, function (err, request, body) {
+    protocols.interfaces.getVideoAccount(protocols.VideoType.YOUKU_TUDOU, function (err, request, body) {
         lokidb.updateSiteInfo("tudou", body.account, body.password);
         ipcRenderer.sendToHost("main-webview-loadurl", "http://www.tudou.com/");
     }, function () { });
 });
 document.getElementById("tencent-button").addEventListener("click", function () {
     loadingknot.expand();
-    require("./protocols.js").interfaces.getVideoAccount(require("./protocols.js").VideoType.QQ, function (err, request, body) {
+    protocols.interfaces.getVideoAccount(protocols.VideoType.QQ, function (err, request, body) {
         lokidb.updateSiteInfo("tencent", body.account, body.password);
         ipcRenderer.sendToHost("main-webview-loadurl", "http://v.qq.com/");
     }, function () { });
 });
 document.getElementById("letv-button").addEventListener("click", function () {
     loadingknot.expand();
-    require("./protocols.js").interfaces.getVideoAccount(require("./protocols.js").VideoType.LETV, function (err, request, body) {
+    protocols.interfaces.getVideoAccount(protocols.VideoType.LETV, function (err, request, body) {
         lokidb.updateSiteInfo("letv", body.account, body.password);
         ipcRenderer.sendToHost("main-webview-loadurl", "http://www.le.com/");
     }, function () { });
@@ -148,5 +160,9 @@ ipcRenderer.on(Signals[Signals.NavigateToSite], function (event, site) {
             siteStrs[idx].style.color = fontColor;
         }
     }
+});
+ipcRenderer.on(Signals[Signals.ResetControls], (e) => {
+    categoryPanel.leave();
+    loginPanel.enter();
 });
 //# sourceMappingURL=controls2.js.map

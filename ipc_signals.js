@@ -7,6 +7,7 @@
     Signals[Signals["NavigateToSite"] = 1] = "NavigateToSite";
     Signals[Signals["SetControlBackground"] = 2] = "SetControlBackground";
     Signals[Signals["AlertOnRenderer"] = 3] = "AlertOnRenderer";
+    Signals[Signals["ResetControls"] = 4] = "ResetControls";
 })(exports.Signals || (exports.Signals = {}));
 var Signals = exports.Signals;
 //# sourceMappingURL=ipc_signals.js.map

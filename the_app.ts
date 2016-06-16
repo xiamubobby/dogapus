@@ -4,7 +4,7 @@
 export enum RunTypeEnum {
     DEBUG, RELEASE
 }
-export const runType: RunTypeEnum = RunTypeEnum.DEBUG;
+export const runType: RunTypeEnum = RunTypeEnum.RELEASE;
 export const isDebug = function() { return runType == RunTypeEnum.DEBUG};
 
 export enum StreamSiteEnum {

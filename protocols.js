@@ -7,12 +7,12 @@ const lokidb = require("./lokis/loki_manager");
 const crypto = require("crypto");
 const theApp = require("./the_app");
 // const BASE_URL = "http://115.28.176.74:8080/ikan/";
-const BASE_URL = "http://127.0.0.1:8080/";
-const Methods = {
+exports.BASE_URL = "http://127.0.0.1:8080/";
+exports.Methods = {
     GET: "GET",
     POST: "POST"
 };
-const VEDIO_WEBSITE = {
+exports.VideoType = {
     YOUKU_TUDOU: 0,
     IQIYI: 1,
     QQ: 2,
@@ -33,41 +33,45 @@ function callback(cb, onfail) {
     return function (err, response, body) {
         if (err) {
             showError(`net err: ${err}`);
-            onfail();
+            if (onfail)
+                onfail();
             return;
         }
         if (response.statusCode >= 400) {
             showError(`网络错误: ${response.statusCode}`);
-            onfail();
+            if (onfail)
+                onfail();
             return;
         }
         let bodyObject = JSON.parse(body);
         if (bodyObject.success != 1) {
             showError(`${bodyObject.message}`);
-            onfail();
+            if (onfail)
+                onfail();
             return;
         }
         cb(err, response, bodyObject);
     };
 }
-var interfaces = {
+exports.interfaces = {
     login: function (account, password, cb, onfail) {
         return request({
             method: "POST",
-            uri: `${BASE_URL}user/login`,
+            uri: `${exports.BASE_URL}user/login`,
             form: {
                 account: account,
                 password: crypto.createHash("md5").update(password).digest("hex")
             },
             callback: callback(function (err, response, body) {
-                cb(err, response, body);
+                if (cb)
+                    cb(err, response, body);
             }, onfail)
         });
     },
     getVideoAccount: function (videoType, cb, onfail) {
         return request({
             method: "GET",
-            uri: `${BASE_URL}user/getIkanAccount`,
+            uri: `${exports.BASE_URL}user/getIkanAccount`,
             headers: {
                 'accessToken': lokidb.getAccessToken()
             },
@@ -75,15 +79,42 @@ var interfaces = {
                 website: videoType
             },
             callback: callback(function (err, response, body) {
-                cb(err, response, body);
+                if (cb)
+                    cb(err, response, body);
+            }, onfail)
+        });
+    },
+    logout: function (cb, onfail) {
+        return request({
+            method: "POST",
+            uri: `${exports.BASE_URL}user/logout`,
+            headers: {
+                'accessToken': lokidb.getAccessToken()
+            },
+            callback: callback(function (err, response, body) {
+                if (cb)
+                    cb(err, response, body);
+            }, onfail)
+        });
+    },
+    switchVip: function (cb, onfail) {
+        return request({
+            method: "POST",
+            uri: `${exports.BASE_URL}user/switchVip`,
+            headers: {
+                'accessToken': lokidb.getAccessToken()
+            },
+            callback: callback(function (err, response, body) {
+                if (cb)
+                    cb(err, response, body);
             }, onfail)
         });
     }
 };
-module.exports = {
-    BASE_URL: BASE_URL,
-    Methods: Methods,
-    VideoType: VEDIO_WEBSITE,
-    interfaces: interfaces
-};
+// module.exports = {
+//     BASE_URL: BASE_URL,
+//     Methods: Methods,
+//     VideoType: VEDIO_WEBSITE,
+//     interfaces: interfaces
+// }; 
 //# sourceMappingURL=protocols.js.map
