@@ -70,8 +70,7 @@ app.on('ready', function () {
             });
         }
     });
-    menu.items[0].
-        Menu.setApplicationMenu(menu);
+    Menu.setApplicationMenu(menu);
     mainWindow = new BrowserWindow({
         width: 1440,
         height: 960,

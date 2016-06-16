@@ -13,7 +13,7 @@ enum Targets {
     osx, win32, linux
 }
 
-for (const target of [Targets.osx]){// Targets.win32, Targets.linux]) {
+for (const target of [Targets.osx, Targets.win32, Targets.linux]) {
     const electronPrebuiltDir = fs.readdirSync(`${__dirname}/../electron_prebuilt/${Targets[target]}/`);
     let zip;
     for (const path of electronPrebuiltDir) {
