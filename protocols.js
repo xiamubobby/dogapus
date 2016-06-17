@@ -7,7 +7,8 @@ const lokidb = require("./lokis/loki_manager");
 const crypto = require("crypto");
 const theApp = require("./the_app");
 // const BASE_URL = "http://115.28.176.74:8080/ikan/";
-exports.BASE_URL = "http://127.0.0.1:8080/";
+exports.BASE_URL = "http://172.16.77.15:8080/";
+// export const BASE_URL = "http://127.0.0.1:8080/";
 exports.Methods = {
     GET: "GET",
     POST: "POST"

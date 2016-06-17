@@ -144,7 +144,7 @@ ipcRenderer.on(Signals[Signals.ControlChangeAppereance], (e, url) => {
     switch (url) {
         case siteDomains[siteEnum.YOUKU]:
             backgroundColor = "#ffffff";
-            fontColor = "red";
+            fontColor = "#2fb3ff";
             break;
         case siteDomains[siteEnum.TUDOU]:
             backgroundColor = "#ffffff";
