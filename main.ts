@@ -59,20 +59,6 @@ app.on('window-all-closed', function() {
 
 app.on('ready', function() {
     const menu = Menu.buildFromTemplate(template);
-    const vipButton = new MenuItem({
-        label: "做个魏阿婆",
-        click: function () {
-            protocols.interfaces.switchVip(function (err, request, body) {
-                vipButton.label = function () {
-                    if (body.nowStatus == "true") {
-                        return "做个魏阿婆!";
-                    } else {
-                        return "再也不做魏阿婆啦!";
-                    }
-                }();
-            });
-        }
-    });
     Menu.setApplicationMenu(menu);
     mainWindow = new BrowserWindow({
         width: 1440,

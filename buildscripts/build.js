@@ -5,7 +5,6 @@
 const shell = require("shelljs");
 const decompresszip = require("decompress-zip");
 const fs = require("fs");
-const asar = require("asar");
 var Targets;
 (function (Targets) {
     Targets[Targets["osx"] = 0] = "osx";
@@ -70,26 +69,5 @@ for (const target of [Targets.osx, Targets.win32, Targets.linux]) {
     shell.mkdir(`${appDir.split("/").slice(0, -1).join("/")}/PepperFlash`);
     shell.cp("-r", `${appDir}/PepperFlash/*`, `${appDir.split("/").slice(0, -1).join("/")}/PepperFlash`);
     shell.rm("-rf", `${appDir}/PepperFlash`);
-    // glob(`${appDir}/**/*.js`, {}, function (err, files) {
-    //     if(!err) {
-    //         for (const file of files) {
-    //             if (!file.includes("node_modules")) {
-    //                 yuicompressor.compress(file, {
-    //                     charset: "utf-8",
-    //                     type: "js",
-    //                     outfile: file
-    //                 }, function (err, data, extra) {
-    //                     if (err) {
-    //                         console.log(`err: ${file}`)
-    //                     }
-    //                 })
-    //             }
-    //         }
-    //     }
-    // });
-    asar.createPackage(appDir, `${appDir}.asar`, function () {
-        console.log("asar done.");
-        shell.rm("-rf", appDir);
-    });
 }
 //# sourceMappingURL=build.js.map

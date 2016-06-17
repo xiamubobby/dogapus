@@ -72,8 +72,10 @@ function login() {
         categoryPanel.show();
         ipcRenderer.sendToHost(Signals[Signals.LoginSuccess]);
         loadingknot.shrink();
+        refreshVipStatus();
     }, function () { loadingknot.shrink(); });
 }
+const vipButton = document.getElementById("switch-vip-button");
 document.getElementById("youku-button").addEventListener("click", function () {
     loadingknot.expand();
     protocols.interfaces.getVideoAccount(protocols.VideoType.YOUKU_TUDOU, function (err, request, body) {
@@ -116,6 +118,9 @@ document.getElementById("letv-button").addEventListener("click", function () {
         ipcRenderer.sendToHost("main-webview-loadurl", "http://www.le.com/");
     }, function () { });
 });
+vipButton.addEventListener("click", function () {
+    refreshVipStatus();
+});
 // ipcRenderer.on(Signals[Signals.SetControlBackground], function (event, color) {
 //     document.body.style.background = color;
 //     for (const idx in siteStrs) {
@@ -126,9 +131,17 @@ document.getElementById("letv-button").addEventListener("click", function () {
 // });
 ipcRenderer.on(Signals[Signals.NavigateToSite], function (event, site) {
     loadingknot.shrink();
+});
+ipcRenderer.on(Signals[Signals.ResetControls], (e) => {
+    categoryPanel.leave();
+    loginPanel.enter();
+});
+ipcRenderer.on(Signals[Signals.ControlChangeAppereance], (e, url) => {
     let backgroundColor = "";
     let fontColor = "";
-    switch (site) {
+    console.log(e);
+    console.log(url);
+    switch (url) {
         case siteDomains[siteEnum.YOUKU]:
             backgroundColor = "#ffffff";
             fontColor = "red";
@@ -161,8 +174,17 @@ ipcRenderer.on(Signals[Signals.NavigateToSite], function (event, site) {
         }
     }
 });
-ipcRenderer.on(Signals[Signals.ResetControls], (e) => {
-    categoryPanel.leave();
-    loginPanel.enter();
-});
+function refreshVipStatus() {
+    protocols.interfaces.switchVip(function (err, request, body) {
+        vipButton.text = function () {
+            console.log(body);
+            if (body.nowStatus == true) {
+                return "你并不是魏阿婆, 做个魏阿婆!";
+            }
+            else {
+                return "你是魏阿婆但你再也不做魏阿婆啦!";
+            }
+        }();
+    });
+}
 //# sourceMappingURL=controls2.js.map

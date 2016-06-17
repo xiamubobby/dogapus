@@ -53,16 +53,22 @@ ipcRenderer.on(ipcSignals.Signals[ipcSignals.Signals.AlertOnRenderer], (event, m
 mainWebView.addEventListener("dom-ready"/*"dom-ready"*/, function (event) {
     pageMod.modWebContent((<WebViewElement> event.target).getWebContents(), ()=>{
         if (mainWebView.getURL().indexOf(siteDomains[siteEnum.YOUKU]) >= 0) {
+            controls.send(Signals[Signals.ControlChangeAppereance], siteDomains[siteEnum.YOUKU]);
             controls.send(Signals[Signals.NavigateToSite], siteDomains[siteEnum.YOUKU]);
         } else if (mainWebView.getURL().indexOf(siteDomains[siteEnum.TUDOU]) >= 0) {
+            controls.send(Signals[Signals.ControlChangeAppereance], siteDomains[siteEnum.TUDOU]);
             controls.send(Signals[Signals.NavigateToSite], siteDomains[siteEnum.TUDOU]);
         } else if (mainWebView.getURL().indexOf(siteDomains[siteEnum.IQIYI]) >= 0) {
+            controls.send(Signals[Signals.ControlChangeAppereance], siteDomains[siteEnum.IQIYI]);
             controls.send(Signals[Signals.NavigateToSite], siteDomains[siteEnum.IQIYI]);
         } else if (mainWebView.getURL().indexOf(siteDomains[siteEnum.SOHU]) >= 0) {
+            controls.send(Signals[Signals.ControlChangeAppereance], siteDomains[siteEnum.SOHU]);
             controls.send(Signals[Signals.NavigateToSite], siteDomains[siteEnum.SOHU]);
         } else if (mainWebView.getURL().indexOf(siteDomains[siteEnum.TENCENT]) >= 0) {
+            controls.send(Signals[Signals.ControlChangeAppereance], siteDomains[siteEnum.TENCENT]);
             controls.send(Signals[Signals.NavigateToSite], siteDomains[siteEnum.TENCENT]);
         } else if (mainWebView.getURL().indexOf(siteDomains[siteEnum.LETV]) >= 0) {
+            controls.send(Signals[Signals.ControlChangeAppereance], siteDomains[siteEnum.LETV]);
             controls.send(Signals[Signals.NavigateToSite], siteDomains[siteEnum.LETV]);
         }
         controls.shrink();
@@ -74,6 +80,19 @@ controls.expand();
 controls.addEventListener("ipc-message", function (e) {
     switch (e.channel) {
         case "main-webview-loadurl":
+            if (e.args[0].indexOf(siteDomains[siteEnum.YOUKU]) >= 0) {
+                controls.send(Signals[Signals.ControlChangeAppereance], siteDomains[siteEnum.YOUKU]);
+            } else if (e.args[0].indexOf(siteDomains[siteEnum.TUDOU]) >= 0) {
+                controls.send(Signals[Signals.ControlChangeAppereance], siteDomains[siteEnum.TUDOU]);
+            } else if (e.args[0].indexOf(siteDomains[siteEnum.IQIYI]) >= 0) {
+                controls.send(Signals[Signals.ControlChangeAppereance], siteDomains[siteEnum.IQIYI]);
+            } else if (e.args[0].indexOf(siteDomains[siteEnum.SOHU]) >= 0) {
+                controls.send(Signals[Signals.ControlChangeAppereance], siteDomains[siteEnum.SOHU]);
+            } else if (e.args[0].indexOf(siteDomains[siteEnum.TENCENT]) >= 0) {
+                controls.send(Signals[Signals.ControlChangeAppereance], siteDomains[siteEnum.TENCENT]);
+            } else if (e.args[0].indexOf(siteDomains[siteEnum.LETV]) >= 0) {
+                controls.send(Signals[Signals.ControlChangeAppereance], siteDomains[siteEnum.LETV]);
+            }
             controls.expand(function (event) {
                 if (e.args.length > 0 ) {
                     try {

@@ -94,12 +94,12 @@ for (const target of [Targets.osx, Targets.win32, Targets.linux]) {
     //             }
     //         }
     //     }
-    // });
+    // });cont
 
-    asar.createPackage(appDir, `${appDir}.asar`, function() {
-        console.log("asar done.");
-        shell.rm("-rf", appDir);
-    });
+    // asar.createPackage(appDir, `${appDir}.asar`, function() {
+    //     console.log("asar done.");
+    //     shell.rm("-rf", appDir);
+    // });
 
 }
 
