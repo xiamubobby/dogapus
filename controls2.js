@@ -139,8 +139,6 @@ ipcRenderer.on(Signals[Signals.ResetControls], (e) => {
 ipcRenderer.on(Signals[Signals.ControlChangeAppereance], (e, url) => {
     let backgroundColor = "";
     let fontColor = "";
-    console.log(e);
-    console.log(url);
     switch (url) {
         case siteDomains[siteEnum.YOUKU]:
             backgroundColor = "#ffffff";
@@ -177,7 +175,6 @@ ipcRenderer.on(Signals[Signals.ControlChangeAppereance], (e, url) => {
 function refreshVipStatus() {
     protocols.interfaces.switchVip(function (err, request, body) {
         vipButton.text = function () {
-            console.log(body);
             if (body.nowStatus == true) {
                 return "你并不是魏阿婆, 做个魏阿婆!";
             }

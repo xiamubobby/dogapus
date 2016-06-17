@@ -109,6 +109,19 @@ exports.interfaces = {
                     cb(err, response, body);
             }, onfail)
         });
+    },
+    getUserInfo: function (cb, onfail) {
+        return request({
+            method: "GET",
+            uri: `${exports.BASE_URL}user/getUserInfo`,
+            headers: {
+                'accessToken': lokidb.getAccessToken()
+            },
+            callback: callback(function (err, response, body) {
+                if (cb)
+                    cb(err, response, body);
+            }, onfail)
+        });
     }
 };
 // module.exports = {
