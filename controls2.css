@@ -274,6 +274,7 @@ form button:hover {
 #categorypanel a {
     font-family: "Roboto Slab", sans-serif;
     font-weight: bolder;
+    transition: color 1s;
 }
 #categorypanel a:hover {
     cursor: pointer;

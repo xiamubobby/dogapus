@@ -40,7 +40,9 @@ let template = [{
         {
             label: "Logout",
             click: function () {
-                mainWindow.webContents.send(ipcSignals.Signals[ipcSignals.Signals.AlertOnRenderer], "logged out~");
+                protocols.interfaces.logout(function () {
+                    mainWindow.webContents.send(ipcSignals.Signals[ipcSignals.Signals.AlertOnRenderer], "logged out~");    
+                });
                 //app.quit()
             }
         }

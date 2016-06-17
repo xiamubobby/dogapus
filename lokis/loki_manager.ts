@@ -30,11 +30,11 @@ let sites = db.getCollection(COLLECTION_SITES);
 
 
 
-export function getAccessToken(event: IpcMainEvent, args){
-    if (event) {
+export function getAccessToken(event?: IpcMainEvent){
+    if (process.type == "browser") {
         let result = user.findOne().data()[0];
         const ret = (result && result.token) ? result.token : "NO_TOKEN";
-        event.returnValue = ret;
+        if (event) event.returnValue = ret;
         return ret;
     } else {
         return ipcRenderer.sendSync(Signals.GET_ACCESS_TOKEN)
@@ -47,7 +47,7 @@ export function updateAccessToken(eventOrtoken, payloadToken) {
     } else {
         user.chain().remove();
         user.insert({token: payloadToken});
-        eventOrtoken.returnValue = null
+        if (eventOrtoken) eventOrtoken.returnValue = null
     }
 }
 
@@ -56,7 +56,7 @@ export function getSiteInfo(eventOrSiteName, payloadSiteName) {
         return ipcRenderer.sendSync(Signals.GET_SITE_INFO, eventOrSiteName);
     } else {
         const result = sites.findOne({siteName: payloadSiteName});
-        eventOrSiteName.returnValue = result;
+        if (eventOrSiteName) eventOrSiteName.returnValue = result;
         return result
     }
 }
@@ -85,7 +85,7 @@ export function updateSiteInfo(eventOrSiteName, payloadSiteNameOrAccount, payloa
             account: payloadAccountOrPassword,
             password: payloadPassword
         });
-        eventOrSiteName.returnValue = null;
+        if (eventOrSiteName) eventOrSiteName.returnValue = null;
     }
 }
 

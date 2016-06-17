@@ -24,11 +24,12 @@ if (!db.getCollection(COLLECTION_SITES)) {
     db.addCollection(COLLECTION_SITES);
 }
 let sites = db.getCollection(COLLECTION_SITES);
-function getAccessToken(event, args) {
-    if (event) {
+function getAccessToken(event) {
+    if (process.type == "browser") {
         let result = user.findOne().data()[0];
         const ret = (result && result.token) ? result.token : "NO_TOKEN";
-        event.returnValue = ret;
+        if (event)
+            event.returnValue = ret;
         return ret;
     }
     else {
@@ -43,7 +44,8 @@ function updateAccessToken(eventOrtoken, payloadToken) {
     else {
         user.chain().remove();
         user.insert({ token: payloadToken });
-        eventOrtoken.returnValue = null;
+        if (eventOrtoken)
+            eventOrtoken.returnValue = null;
     }
 }
 exports.updateAccessToken = updateAccessToken;
@@ -53,7 +55,8 @@ function getSiteInfo(eventOrSiteName, payloadSiteName) {
     }
     else {
         const result = sites.findOne({ siteName: payloadSiteName });
-        eventOrSiteName.returnValue = result;
+        if (eventOrSiteName)
+            eventOrSiteName.returnValue = result;
         return result;
     }
 }
@@ -82,7 +85,8 @@ function updateSiteInfo(eventOrSiteName, payloadSiteNameOrAccount, payloadAccoun
             account: payloadAccountOrPassword,
             password: payloadPassword
         });
-        eventOrSiteName.returnValue = null;
+        if (eventOrSiteName)
+            eventOrSiteName.returnValue = null;
     }
 }
 exports.updateSiteInfo = updateSiteInfo;

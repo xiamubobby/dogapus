@@ -72,7 +72,17 @@ function login() {
         categoryPanel.show();
         ipcRenderer.sendToHost(Signals[Signals.LoginSuccess]);
         loadingknot.shrink();
-        refreshVipStatus();
+        protocols.interfaces.getUserInfo(function (err, request, body) {
+            console.log(body);
+            vipButton.text = function () {
+                if (body.vip != true) {
+                    return "你现在并不是魏阿婆, 点我做个魏阿婆!";
+                }
+                else {
+                    return "你现在是魏阿婆, 点我就再也不做魏阿婆啦!";
+                }
+            }();
+        });
     }, function () { loadingknot.shrink(); });
 }
 const vipButton = document.getElementById("switch-vip-button");
@@ -119,7 +129,17 @@ document.getElementById("letv-button").addEventListener("click", function () {
     }, function () { });
 });
 vipButton.addEventListener("click", function () {
-    refreshVipStatus();
+    console.log("switch clicked");
+    protocols.interfaces.switchVip(function (err, request, body) {
+        vipButton.text = function () {
+            if (body.nowStatus != true) {
+                return "你现在并不是魏阿婆, 点我做个魏阿婆!";
+            }
+            else {
+                return "你现在是魏阿婆, 点我就再也不做魏阿婆啦!";
+            }
+        }();
+    });
 });
 // ipcRenderer.on(Signals[Signals.SetControlBackground], function (event, color) {
 //     document.body.style.background = color;
@@ -173,15 +193,5 @@ ipcRenderer.on(Signals[Signals.ControlChangeAppereance], (e, url) => {
     }
 });
 function refreshVipStatus() {
-    protocols.interfaces.switchVip(function (err, request, body) {
-        vipButton.text = function () {
-            if (body.nowStatus == true) {
-                return "你并不是魏阿婆, 做个魏阿婆!";
-            }
-            else {
-                return "你是魏阿婆但你再也不做魏阿婆啦!";
-            }
-        }();
-    });
 }
 //# sourceMappingURL=controls2.js.map

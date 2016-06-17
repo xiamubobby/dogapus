@@ -10,6 +10,7 @@ const theApp = require("./the_app");
 require("./lokis/loki_manager");
 const ipcSignals = require("./ipc_signals");
 const BrowserWindow = electron.BrowserWindow;
+const protocols = require("./protocols");
 const MenuItem = electron.MenuItem;
 let flashPath = "";
 switch (process.platform) {
@@ -37,7 +38,9 @@ let template = [{
             {
                 label: "Logout",
                 click: function () {
-                    mainWindow.webContents.send(ipcSignals.Signals[ipcSignals.Signals.AlertOnRenderer], "logged out~");
+                    protocols.interfaces.logout(function () {
+                        mainWindow.webContents.send(ipcSignals.Signals[ipcSignals.Signals.AlertOnRenderer], "logged out~");
+                    });
                     //app.quit()
                 }
             }
