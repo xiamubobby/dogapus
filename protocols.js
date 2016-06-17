@@ -6,9 +6,9 @@ const request = require("request");
 const lokidb = require("./lokis/loki_manager");
 const crypto = require("crypto");
 const theApp = require("./the_app");
-// const BASE_URL = "http://115.28.176.74:8080/ikan/";
+const BASE_URL = "http://115.28.176.74:8080/ikan/";
 // export const BASE_URL = "http://172.16.77.15:8080/";
-exports.BASE_URL = "http://127.0.0.1:8080/";
+// export const BASE_URL = "http://127.0.0.1:8080/";
 exports.Methods = {
     GET: "GET",
     POST: "POST"
@@ -58,7 +58,7 @@ exports.interfaces = {
     login: function (account, password, cb, onfail) {
         return request({
             method: "POST",
-            uri: `${exports.BASE_URL}user/login`,
+            uri: `${BASE_URL}user/login`,
             form: {
                 account: account,
                 password: crypto.createHash("md5").update(password).digest("hex")
@@ -72,7 +72,7 @@ exports.interfaces = {
     getVideoAccount: function (videoType, cb, onfail) {
         return request({
             method: "GET",
-            uri: `${exports.BASE_URL}user/getIkanAccount`,
+            uri: `${BASE_URL}user/getIkanAccount`,
             headers: {
                 'accessToken': lokidb.getAccessToken()
             },
@@ -88,7 +88,7 @@ exports.interfaces = {
     logout: function (cb, onfail) {
         return request({
             method: "POST",
-            uri: `${exports.BASE_URL}user/logout`,
+            uri: `${BASE_URL}user/logout`,
             headers: {
                 'accessToken': lokidb.getAccessToken()
             },
@@ -101,7 +101,7 @@ exports.interfaces = {
     switchVip: function (cb, onfail) {
         return request({
             method: "POST",
-            uri: `${exports.BASE_URL}user/switchVip`,
+            uri: `${BASE_URL}user/switchVip`,
             headers: {
                 'accessToken': lokidb.getAccessToken()
             },
@@ -114,7 +114,7 @@ exports.interfaces = {
     getUserInfo: function (cb, onfail) {
         return request({
             method: "GET",
-            uri: `${exports.BASE_URL}user/getUserInfo`,
+            uri: `${BASE_URL}user/getUserInfo`,
             headers: {
                 'accessToken': lokidb.getAccessToken()
             },
