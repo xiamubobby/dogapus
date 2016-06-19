@@ -5,6 +5,7 @@
 const shell = require("shelljs");
 const decompresszip = require("decompress-zip");
 const fs = require("fs");
+// import qiniu = require("qiniu")
 var Targets;
 (function (Targets) {
     Targets[Targets["osx"] = 0] = "osx";
@@ -48,17 +49,17 @@ for (const target of [Targets.osx, Targets.win32, Targets.linux]) {
     })) {
         shell.cp('-r', `${__dirname}/../${name}`, appDir);
     }
-    const pkgjson = require(`${__dirname}/../package.json`);
-    const dependencies = pkgjson.dependencies;
-    if (dependencies) {
-        shell.mkdir(`${appDir}/node_modules`);
-    }
-    for (const devModName in dependencies) {
-        if (dependencies.hasOwnProperty(devModName)) {
-            console.log(`${appDir}/node_modules/${devModName}`);
-            shell.cp("-r", `${__dirname}/../node_modules/${devModName}`, `${appDir}/node_modules/${devModName}`);
-        }
-    }
+    // const pkgjson = require(`${__dirname}/../package.json`);
+    // const dependencies = pkgjson.dependencies;
+    // if (dependencies) {
+    //     shell.mkdir(`${appDir}/node_modules`);
+    // }
+    // for (const devModName in dependencies) {
+    //     if (dependencies.hasOwnProperty(devModName)) {
+    //         console.log(`${appDir}/node_modules/${devModName}`);
+    //         shell.cp("-r", `${__dirname}/../node_modules/${devModName}`, `${appDir}/node_modules/${devModName}`);
+    //     }
+    // }
     // shell.rm("-rf", `${appDir}/node_modules/.bin`);
     const flPlugins = fs.readdirSync(`${appDir}/PepperFlash`);
     flPlugins.filter(function (value, index, array) {
@@ -69,5 +70,30 @@ for (const target of [Targets.osx, Targets.win32, Targets.linux]) {
     shell.mkdir(`${appDir.split("/").slice(0, -1).join("/")}/PepperFlash`);
     shell.cp("-r", `${appDir}/PepperFlash/*`, `${appDir.split("/").slice(0, -1).join("/")}/PepperFlash`);
     shell.rm("-rf", `${appDir}/PepperFlash`);
+    // glob(`${appDir}/**/*.js`, {}, function (err, files) {
+    //     if(!err) {
+    //         for (const file of files) {
+    //             if (!file.includes("node_modules")) {
+    //                 yuicompressor.compress(file, {
+    //                     charset: "utf-8",
+    //                     type: "js",
+    //                     outfile: file
+    //                 }, function (err, data, extra) {
+    //                     if (err) {
+    //                         console.log(`err: ${file}`)
+    //                     }
+    //                 })
+    //             }
+    //         }
+    //     }
+    // });cont
+    // asar.createPackage(appDir, `${appDir}.asar`, function() {
+    //     console.log("asar done.");
+    //     shell.rm("-rf", appDir);
+    // });
+    shell.exec(`cd ${appDir} && npm install --production`, function () {
+        // qiniu.conf.ACCESS_KEY = 'r-X6SPTNNdULXMFVcjWupgsdps1qm-pQSmvNbUx1'
+        // qiniu.conf.SECRET_KEY = 'oa95XCEsDC53NpzLJmbYatfhHe79HhRypm1w1kej'
+    });
 }
 //# sourceMappingURL=build.js.map

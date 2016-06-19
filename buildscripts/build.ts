@@ -8,6 +8,7 @@ import fs = require("fs")
 import glob = require("glob")
 import yuicompressor = require("yuicompressor")
 import asar = require("asar")
+// import qiniu = require("qiniu")
 
 enum Targets {
     osx, win32, linux
@@ -55,17 +56,17 @@ for (const target of [Targets.osx, Targets.win32, Targets.linux]) {
     })) {
         shell.cp('-r', `${__dirname}/../${name}`, appDir);
     }
-    const pkgjson = require(`${__dirname}/../package.json`);
-    const dependencies = pkgjson.dependencies;
-    if (dependencies) {
-        shell.mkdir(`${appDir}/node_modules`);
-    }
-    for (const devModName in dependencies) {
-        if (dependencies.hasOwnProperty(devModName)) {
-            console.log(`${appDir}/node_modules/${devModName}`);
-            shell.cp("-r", `${__dirname}/../node_modules/${devModName}`, `${appDir}/node_modules/${devModName}`);
-        }
-    }
+    // const pkgjson = require(`${__dirname}/../package.json`);
+    // const dependencies = pkgjson.dependencies;
+    // if (dependencies) {
+    //     shell.mkdir(`${appDir}/node_modules`);
+    // }
+    // for (const devModName in dependencies) {
+    //     if (dependencies.hasOwnProperty(devModName)) {
+    //         console.log(`${appDir}/node_modules/${devModName}`);
+    //         shell.cp("-r", `${__dirname}/../node_modules/${devModName}`, `${appDir}/node_modules/${devModName}`);
+    //     }
+    // }
     // shell.rm("-rf", `${appDir}/node_modules/.bin`);
     
     const flPlugins = fs.readdirSync(`${appDir}/PepperFlash`);
@@ -100,6 +101,12 @@ for (const target of [Targets.osx, Targets.win32, Targets.linux]) {
     //     console.log("asar done.");
     //     shell.rm("-rf", appDir);
     // });
+    shell.exec(`cd ${appDir} && npm install --production`, function () {
+        // qiniu.conf.ACCESS_KEY = 'r-X6SPTNNdULXMFVcjWupgsdps1qm-pQSmvNbUx1'
+        // qiniu.conf.SECRET_KEY = 'oa95XCEsDC53NpzLJmbYatfhHe79HhRypm1w1kej'
+    })
+
+
 
 }
 
