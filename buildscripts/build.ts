@@ -17,20 +17,25 @@ enum Targets {
 for (const target of [Targets.osx, Targets.win32, Targets.linux]) {
     const electronPrebuiltDir = fs.readdirSync(`${__dirname}/../electron_prebuilt/${Targets[target]}/`);
     let zip;
+    let toBeZipped;
     for (const path of electronPrebuiltDir) {
         if (path.endsWith(".zip")) {
-            zip = new decompresszip(`${__dirname}/../electron_prebuilt/${Targets[target]}/${path}`);
+            // zip = new decompresszip(`${__dirname}/../electron_prebuilt/${Targets[target]}/${path}`);
+            toBeZipped = `${__dirname}/../electron_prebuilt/${Targets[target]}/${path}`;
             break;
         }
     }
-    
+
     const outDir = `${__dirname}/../out/${Targets[target]}/`;
-    
+
     shell.mkdir('-p', outDir);
+    shell.cp(toBeZipped, `${outDir}/ep.zip`);
+    shell.exec(`cd ${outDir} && unzip ep.zip && rm -f ep.zip`);
+    //
+    // zip.extract({
+    //     path: outDir
+    // });
     
-    zip.extract({
-        path: outDir
-    });
     
     let appDir;
     switch (target) {
@@ -78,7 +83,7 @@ for (const target of [Targets.osx, Targets.win32, Targets.linux]) {
     shell.mkdir(`${appDir.split("/").slice(0, -1).join("/")}/PepperFlash`);
     shell.cp("-r", `${appDir}/PepperFlash/*`, `${appDir.split("/").slice(0, -1).join("/")}/PepperFlash`);
     shell.rm("-rf", `${appDir}/PepperFlash`);
-
+    
     // glob(`${appDir}/**/*.js`, {}, function (err, files) {
     //     if(!err) {
     //         for (const file of files) {
@@ -96,7 +101,7 @@ for (const target of [Targets.osx, Targets.win32, Targets.linux]) {
     //         }
     //     }
     // });cont
-
+    
     // asar.createPackage(appDir, `${appDir}.asar`, function() {
     //     console.log("asar done.");
     //     shell.rm("-rf", appDir);
@@ -105,8 +110,8 @@ for (const target of [Targets.osx, Targets.win32, Targets.linux]) {
         // qiniu.conf.ACCESS_KEY = 'r-X6SPTNNdULXMFVcjWupgsdps1qm-pQSmvNbUx1'
         // qiniu.conf.SECRET_KEY = 'oa95XCEsDC53NpzLJmbYatfhHe79HhRypm1w1kej'
     })
-
-
+    
+    
 
 }
 
