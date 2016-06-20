@@ -1,6 +1,7 @@
 /**
  * Created by natsuki on 16/4/28.
  */
+///<refrence path="../../indexinjections.ts />
 console.log("sohu-mod loading");
 var mutationObserver = new MutationObserver(function (mutations) {
     for (const mutation of mutations) {
@@ -9,9 +10,7 @@ var mutationObserver = new MutationObserver(function (mutations) {
                 const node = mutation.addedNodes[i];
                 if (node.nodeName == "DIV") {
                     if (node.classList.contains("globallogin")) {
-                        console.log("sohu inned");
-                        const info = loki.getSiteInfo("sohu");
-                        console.log(info);
+                        const info = window.loki.getSiteInfo("sohu");
                         const email = node.querySelector("input[name='email']");
                         email.placeholder = "";
                         email.value = info.account; //db("video").find({site: "sohu"}).account//"jb"

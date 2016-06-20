@@ -1,6 +1,7 @@
 /**
  * Created by natsuki on 16/4/28.
  */
+///<refrence path="../../indexinjections.ts />
 console.log("letv-mod loading");
 var mutationObserver = new MutationObserver(function (mutations) {
     for (const mutation of mutations) {
@@ -25,7 +26,7 @@ var mutationObserver = new MutationObserver(function (mutations) {
                     if (node.id == "LEPass_LOGIN_IFRAME") {
                         const usernameInput = node.querySelector("input.loginname");
                         const passwordInput = node.querySelector("input.password");
-                        const info = loki.getSiteInfo("letv");
+                        const info = windows.loki.getSiteInfo("letv");
                         usernameInput.value = info.account;
                         passwordInput.value = info.password;
                     }

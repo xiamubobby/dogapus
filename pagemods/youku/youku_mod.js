@@ -1,6 +1,7 @@
 /**
  * Created by natsuki on 16/4/27.
  */
+///<refrence path="../../indexinjections.ts />
 console.log("youku-mod loading");
 var mutationObserver = new MutationObserver(function (mutations) {
     for (const mutation of mutations) {
@@ -20,7 +21,7 @@ var mutationObserver = new MutationObserver(function (mutations) {
                 }
                 if (node.nodeName == "DIV") {
                     if (node.attributes.getNamedItem("id").value == "YT-loginFramePop") {
-                        const info = loki.getSiteInfo("youku");
+                        const info = windows.loki.getSiteInfo("youku");
                         let yt_passport = (document.getElementById("YT-ytaccount"));
                         yt_passport.placeholder = "";
                         yt_passport.value = info.account;

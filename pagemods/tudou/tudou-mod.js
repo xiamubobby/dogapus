@@ -1,6 +1,7 @@
 /**
  * Created by natsuki on 16/4/28.
  */
+///<refrence path="../../indexinjections.ts />
 console.log("tudou-mod loading");
 var mutationObserver = new MutationObserver(function (mutations) {
     for (const mutation of mutations) {
@@ -18,7 +19,7 @@ var mutationObserver = new MutationObserver(function (mutations) {
                     if (result) {
                         const frame = node.querySelectorAll("IFRAME")[1];
                         frame.addEventListener("load", function (e) {
-                            const info = loki.getSiteInfo("tudou");
+                            const info = windows.loki.getSiteInfo("tudou");
                             let fd = frame.contentDocument;
                             const email = fd.getElementById("loginname");
                             email.placeholder = "";

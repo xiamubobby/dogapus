@@ -1,6 +1,7 @@
 /**
  * Created by natsuki on 16/4/28.
  */
+///<refrence path="../../indexinjections.ts />
 console.log("iqiyi-mod loading");
 var mutationObserver = new MutationObserver(function (mutations) {
     for (const mutation of mutations) {
@@ -10,7 +11,7 @@ var mutationObserver = new MutationObserver(function (mutations) {
                 if (node.nodeName == "DIV") {
                     if (node.id == "qipaLoginIfr") {
                         console.log("first");
-                        const info = loki.getSiteInfo("iqiyi");
+                        const info = windows.loki.getSiteInfo("iqiyi");
                         const email = node.querySelector("input[data-loginbox-elem='emailInput']");
                         email.placeholder = "";
                         email.value = info.account; //db("video").find({site: "iqiyi"}).account//"jb";

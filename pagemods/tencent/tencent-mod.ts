@@ -1,6 +1,7 @@
 /**
  * Created by natsuki on 16/4/28.
  */
+///<refrence path="../../indexinjections.ts />
 console.log("tencent-mod loading");
 var mutationObserver = new MutationObserver(function (mutations) {
     for (const mutation of mutations) {
@@ -11,7 +12,7 @@ var mutationObserver = new MutationObserver(function (mutations) {
                     if (node.id == ("login_win")) {
                         const frame = document.getElementById("_login_frame_quick_")
                         frame.addEventListener("load", function (e) {
-                            const info = loki.getSiteInfo("tencent");
+                            const info = windows.loki.getSiteInfo("tencent");
                             const fd = frame.contentDocument;
                             const email = fd.querySelector("#u");
                             email.placeholder = "";
