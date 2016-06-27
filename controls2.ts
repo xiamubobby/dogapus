@@ -67,8 +67,12 @@ loginForm.addEventListener("keydown", function (event: KeyboardEvent) {
        login();
     }
 });
+(<HTMLInputElement> document.getElementById("username")).addEventListener("change", function (event) {
+    
+});
 
 function login() {
+    let accountValue = (<HTMLInputElement> document.getElementById("username")).value;
     loadingknot.expand();
     let account = (<HTMLInputElement> document.getElementById("username")).value;
     let password = (<HTMLInputElement> document.getElementById("password")).value;

@@ -41,7 +41,7 @@ let template = [{
             label: "Logout",
             click: function () {
                 protocols.interfaces.logout(function () {
-                    mainWindow.webContents.send(ipcSignals.Signals[ipcSignals.Signals.AlertOnRenderer], "logged out~");    
+                    mainWindow.webContents.send(ipcSignals.Signals[ipcSignals.Signals.AlertOnRenderer], "logged out~");
                 });
                 //app.quit()
             }

@@ -85,6 +85,9 @@ body :-ms-input-placeholder {
 #login-button:focus a {
     display: inline;
 }
+#username {
+    ime-mode: disabled;
+}
 form {
     padding: 20px 0;
     position: relative;
