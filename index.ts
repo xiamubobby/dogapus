@@ -10,9 +10,12 @@ import ipcSignals = require("./ipc_signals")
 const siteDomains = theApp.SiteDomains;
 const siteEnum = theApp.StreamSiteEnum;
 const Signals = ipcSignals.Signals;
+import {Stageable, Resizeable} from "./viewinterfaces";
 
-let mainWebView: WebViewElement = <WebViewElement> document.getElementById("mainwebview");
-let controls: WebViewElement = <WebViewElement> document.getElementById("controlwebview");
+let mainWebView = <WebViewElement & Resizeable> document.getElementById("mainwebview");
+let controls = <WebViewElement & Resizeable> document.getElementById("controlwebview");
+
+console.log(Signals.AlertOnRenderer)
 
 controls.shrink = function () {
     this.style.height = "60px";
@@ -93,7 +96,7 @@ controls.addEventListener("ipc-message", function (e) {
             } else if (e.args[0].indexOf(siteDomains[siteEnum.LETV]) >= 0) {
                 controls.send(Signals[Signals.ControlChangeAppereance], siteDomains[siteEnum.LETV]);
             }
-            controls.expand(function (event) {
+            controls.expand(function () {
                 if (e.args.length > 0 ) {
                     try {
                         mainWebView.loadURL(e.args[0]);

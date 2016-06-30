@@ -7,9 +7,9 @@ import crypto = require("crypto");
 import theApp = require("./the_app");
 import electron = require("electron");
 
-const BASE_URL = "http://115.28.176.74:8080/ikan/";
+// export const BASE_URL = "http://115.28.176.74:8080/ikan/";
 // export const BASE_URL = "http://172.16.77.15:8080/";
-// export const BASE_URL = "http://127.0.0.1:8080/";
+export const BASE_URL = "http://127.0.0.1:8080/";
 
 export const Methods = {
     GET: "GET",
@@ -44,7 +44,7 @@ function callback(cb, onfail) {
             if (onfail) onfail();
             return;
         }
-        let bodyObject = JSON.parse(body)
+        let bodyObject = JSON.parse(body);
         if (bodyObject.success != 1) {
             showError(`${bodyObject.message}`);
             if (onfail) onfail();

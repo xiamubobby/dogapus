@@ -1,4 +1,8 @@
 /**
  * Created by natsuki on 16/6/20.
  */
-window.loki = require("./lokis/loki_manager");
+interface LokiManager {
+    loki: {}
+}
+import r = require("./lokis/loki_manager");
+window["loki"] = r;

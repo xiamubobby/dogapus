@@ -3,11 +3,11 @@
  */
 
 import shell = require("shelljs")
-import decompresszip = require("decompress-zip")
+// import decompresszip = require("decompress-zip")
 import fs = require("fs")
-import glob = require("glob")
-import yuicompressor = require("yuicompressor")
-import asar = require("asar")
+// import glob = require("glob")
+// import yuicompressor = require("yuicompressor")
+// import asar = require("asar")
 // import qiniu = require("qiniu")
 
 enum Targets {

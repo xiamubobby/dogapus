@@ -10,6 +10,7 @@ import "./lokis/loki_manager";
 import ipcSignals = require("./ipc_signals");
 const BrowserWindow = electron.BrowserWindow;
 import protocols = require("./protocols");
+import {Signals} from "./ipc_signals";
 const MenuItem = electron.MenuItem;
 
 let flashPath = "";
@@ -31,6 +32,8 @@ switch(process.platform) {
         break;
 }
 console.log(flashPath);
+
+console.log(Signals.AlertOnRenderer)
 
 ipcMain.on("get-app-path", function (e) { e.returnValue = app.getAppPath() });
 

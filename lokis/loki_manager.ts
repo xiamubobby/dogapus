@@ -31,29 +31,33 @@ let sites = db.getCollection(COLLECTION_SITES);
 
 
 export function getAccessToken(event?: IpcMainEvent){
-    if (process.type == "browser") {
+    if (process["type"] == "browser") {
+        console.log("brow")
         let result = user.findOne().data()[0];
         const ret = (result && result.token) ? result.token : "NO_TOKEN";
         if (event) event.returnValue = ret;
         return ret;
     } else {
-        return ipcRenderer.sendSync(Signals.GET_ACCESS_TOKEN)
+        console.log("rede")
+        return ipcRenderer.sendSync(Signals[Signals.GET_ACCESS_TOKEN])
     }
 }
 
-export function updateAccessToken(eventOrtoken, payloadToken) {
-    if (ipcRenderer) {
-        return ipcRenderer.sendSync(Signals.UPDATE_ACCESS_TOKEN, eventOrtoken);
+export function updateAccessToken(eventOrtoken, payloadToken?) {
+    if (process["type"] == "renderer") {
+        console.log("uat render")
+        return ipcRenderer.sendSync(Signals[Signals.UPDATE_ACCESS_TOKEN], eventOrtoken);
     } else {
+        console.log("uat browser")
         user.chain().remove();
         user.insert({token: payloadToken});
         if (eventOrtoken) eventOrtoken.returnValue = null
     }
 }
 
-export function getSiteInfo(eventOrSiteName, payloadSiteName) {
-    if (ipcRenderer) {
-        return ipcRenderer.sendSync(Signals.GET_SITE_INFO, eventOrSiteName);
+export function getSiteInfo(eventOrSiteName, payloadSiteName?) {
+    if (process["type"] == "renderer") {
+        return ipcRenderer.sendSync(Signals[Signals.GET_SITE_INFO], eventOrSiteName);
     } else {
         const result = sites.findOne({siteName: payloadSiteName});
         if (eventOrSiteName) eventOrSiteName.returnValue = result;
@@ -61,23 +65,9 @@ export function getSiteInfo(eventOrSiteName, payloadSiteName) {
     }
 }
 
-// export function updateSiteInfo(siteName: string, account: string, password: string) {
-//     return ipcRenderer.sendSync(Signals.UPDATE_SITE_INFO, siteName, account, password);
-// }
-//
-// export function updateSiteInfo(event: IpcMainEvent, siteName: string, account: string, password: string) {
-//     sites.removeWhere({siteName: siteName});
-//     sites.insert({
-//         siteName: siteName,
-//         account: account,
-//         password: password
-//     });
-//     event.returnValue = null;
-// }
-
-export function updateSiteInfo(eventOrSiteName, payloadSiteNameOrAccount, payloadAccountOrPassword, payloadPassword) {
-    if (ipcRenderer) {
-        return ipcRenderer.sendSync(Signals.UPDATE_SITE_INFO, eventOrSiteName, payloadSiteNameOrAccount, payloadAccountOrPassword);
+export function updateSiteInfo(eventOrSiteName, payloadSiteNameOrAccount?, payloadAccountOrPassword?, payloadPassword?) {
+    if (process["type"] == "renderer") {
+        return ipcRenderer.sendSync(Signals[Signals.UPDATE_SITE_INFO], eventOrSiteName, payloadSiteNameOrAccount, payloadAccountOrPassword);
     } else {
         sites.removeWhere({siteName: payloadSiteNameOrAccount});
         sites.insert({
@@ -93,18 +83,16 @@ export function clearSiteInfos() {
     sites.chain().remove()
 }
 
-for (const signal in Signals) {
-    if (Signals.hasOwnProperty(signal)) {
-        if (ipcMain) {
-            ipcMain.on(Signals[signal],
-                (event, ...arg) =>
-                    this[signal.split("_")
-                            .map((part, index)=>(index != 0) ? `${part[0].toUpperCase()}${part.slice(1).toLowerCase()}` : part.toLowerCase())
-                        .join("")]
-                    (event, ...arg)
-                //enums are logged as int in node environment but as string in browser environment, which is strange.
-            )
-        }
+console.log(process["type"])
+if (process["type"] == "browser") {
+    for (const signal in Object.keys(Signals).map(k => Signals[k]).filter(v => typeof v === "number")) {
+    ipcMain.on(Signals[signal],
+        (event: IpcMainEvent, ...arg) => {
+            this[Signals[signal].split("_")
+                .map((part, index)=>(index != 0) ? `${part[0].toUpperCase()}${part.slice(1).toLowerCase()}` : part.toLowerCase())
+                .join("")]
+            (event, ...arg);
+        });
+    //enums are logged as int in node environment but as string in browser environment, which is strange.
     }
-
 }
